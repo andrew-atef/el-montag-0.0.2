@@ -15,27 +15,48 @@ from django.core.paginator import Paginator
 
 def if_login(next, request):
     print(next)
-    match next:
-        case '/add_to_cart/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case '/mycart/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case '/add_coupon/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case '/delete_item/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case '/action_plus/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case '/checkout/':
-            messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
-            return redirect('login')
-        case _:
-            return redirect('home')
+    if next == '/add_to_cart/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    elif next == '/mycart/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    elif next == '/add_coupon/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    elif next == '/delete_item/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    elif next == '/action_plus/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    elif next == '/checkout/':
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+    else:
+        messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+        return redirect('login')
+#     match next:
+#         case '/add_to_cart/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case '/mycart/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case '/add_coupon/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case '/delete_item/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case '/action_plus/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case '/checkout/':
+#             messages.success(request, 'سجل دخول الان فى اقل من 5 دقائق علشان تقدر تضيف اى منتج تحبه للعربه')
+#             return redirect('login')
+#         case _:
+#             return redirect('home')
 
 def affiliate_only(request):
     try:
