@@ -1,6 +1,3 @@
-from ast import Not
-from tkinter import E
-from urllib import request
 from django.shortcuts import render
 from .models import Product, Cart, Category, Item, Address_details, Coupon, Order, Governorates, Features, Home_grid_slider
 from affiliate.models import Affiliate_profile
