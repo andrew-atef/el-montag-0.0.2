@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f$t$05vd6)rd3v)6v^+tf*0vaft-jif&d)81n$c+k=d#k#j^v2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'el-montag.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,7 +47,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -134,7 +134,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ['el-montag.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://1ad5-197-37-52-208.ngrok.io']
 
 
 
@@ -159,3 +159,5 @@ EMAIL_HOST_PASSWORD = 'gvsfymhqhijrvyli'
 
 
 # hysrroqlkeltivsf
+
+django_heroku.settings(locals())
