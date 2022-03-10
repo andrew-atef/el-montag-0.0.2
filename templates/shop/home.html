@@ -1,0 +1,353 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home-grid.css' %}">
+{% endblock css %}
+
+{% block title %}
+تسوق أونلاين في مصر | أزياء، إلكترونيات، منتجات الجمال، منتجات الأطفال - المنتج
+{% endblock title %}
+
+{% block content %}
+      <section class="banner-part">
+         <div class="container">
+            {% if messages %}
+               {% for message in messages %}
+                  {% if message.tags == 'error' %} 
+                     <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+                  {% else %}
+                  <div class="alert-info" style="border-top: 3px solid var(--bs-dark);background: var(--primary);"><p class="text-white">{{ message }}</p></div>
+                  {% endif %}
+               {% endfor %}
+            {% endif %}
+
+
+            <div class="row">
+               <div class="col-lg-3">
+                  <div class="banner-category">
+                     <div class="banner-category-head">
+                        <i class="fas fa-bars"></i><span>جميع الفئات</span>
+                     </div>
+                     <ul class="banner-category-list">
+                        <li class="banner-category-item">
+                           <a href="{% url 'all_products' %}"><i class="flaticon-vegetable"></i><span>جميع المنتجات</span></a>
+                        </li>
+
+                        {% for category in categorys %}
+                        <li class="banner-category-item">
+                           <a href="{% url 'category' category.slug %}"><i class="flaticon-vegetable"></i><span>{{ category.name }}</span></a>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-12 col-md-12 col-lg-9">
+                  <div class="row d-flex justify-content-center">
+                     <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+                        <div class="home-grid-slider slider-dots">
+                           {% for img in imgs %}
+                           <div class="banner-wrap p-0 bg1">
+                              <img class="" src="{{img.image.url}}" alt="">
+                           </div>
+                           {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <section class="section newitem-part">
+         <div class="container">
+            <div class="row">
+               <div class="col">
+                  <div class="section-heading">
+                     <h2>
+                        عروضنا المفضلة
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col">
+                  <ul class="new-slider slider-arrow">
+                    {% for product in  products %}
+                        {% if product.sale_price %}
+                        <li>
+                            <div class="product-card">
+                               <div class="product-media">
+                                  <div class="product-label">
+                                      {% if product.discount_percentage %}
+                                     <label class="label-text new p-2">
+                                     خصم {{ product.discount_percentage }}%
+                                     </label>
+                                     {% endif %}
+                                  </div>
+                                  <a class="product-image d-flex justify-content-center" href="{% url 'product-page' product.slug %}">
+                                  <img src="{{ product.main_image.url }}" alt="product" height="190" class="d-block mx-auto">
+                                  </a>
+
+                               </div>
+                               <div class="product-content">
+                                  <div class="product-rating">
+                                    <small><a href="{% url 'category' product.category.slug %}">{{ product.category }}</a></small>
+                                  </div>
+                                  <h6 class="product-name" style=" font-weight: 600; ">
+                                     <a href="{% url 'product-page' product.slug %}" class="text-truncate w-100">{{ product.title }}</a>
+                                  </h6>
+                                  <h6 class="product-price">
+                                      {% if product.sale_price > 0 %}
+                                      <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                                      {% else %}
+                                      <span>{{ product.price }} جنيه</span>
+                                      {% endif %}
+                                  </h6>
+                                  {% if slug %}
+                                  <form method="post" action="../add_to_cart/">
+                                  {% else %}
+                                  <form method="post" action="/add_to_cart/">
+                                  {% endif %}
+                                      {% csrf_token %}
+                                      <input type="hidden" name="product" value="{{ product.id }}" />
+                                      <input type="hidden" name="quantity" value="1" />
+                                      <input type="hidden" name="cart" value="{{user.id}}" />
+                                      <button class="product-add" title="Add to Cart">
+                                        <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                                      </button>
+                                  </form>
+                               </div>
+                            </div>
+                         </li>
+                        {% endif %}
+                    {% endfor %}
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </section>
+      {% comment %} <section class="section promo-part">
+        <div class="container">
+           <div class="row">
+              <div class="col-lg-12">
+                 <div class="promo-content">
+                    <h3>
+                       only <span>$45</span>per kilogram
+                    </h3>
+                    <h2>
+                       fresh Blueberries
+                    </h2>
+                    <a href="shop-4column.html" class="btn btn-inline"><i class="fas fa-shopping-basket"></i><span>shop now</span></a>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section> {% endcomment %}
+      <section class="section niche-part m-0">
+         <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs">
+                     {% if category1_name %}
+                     <li>
+                        <a href="#{{ category1_slug }}" class="tab-link active" data-bs-toggle="tab"><span>{{ category1_name }}</span></a>
+                     </li>
+                     {% endif %}
+
+                     {% if category2_name %}
+                     <li>
+                           <a href="#{{ category2_slug }}" class="tab-link" data-bs-toggle="tab"><span>{{ category2_name }}</span></a>
+                     </li>
+                     {% endif %}
+                     {% if category3_name %}
+                     <li>
+                           <a href="#{{ category3_slug }}" class="tab-link" data-bs-toggle="tab"></i><span>{{ category3_name }}</span></a>
+                     </li>
+                     {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% if category1 %}
+            <div class="tab-pane fade show active" id="{{ category1_slug }}">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                  {% for product in  category1 %}
+                  <div class="col">
+                      <div class="product-card">
+                      <div class="product-media">
+                          <div class="product-label">
+                              {% if product.discount_percentage %}
+                              <label class="label-text new p-2">
+                              خصم {{ product.discount_percentage }}%
+                              </label>
+                              {% endif %}
+                          </div>
+                          <a class="product-image d-flex justify-content-center" href="{% url 'product-page' product.slug %}">
+                          <img src="{{ product.main_image.url }}" alt="product" height="190" class="d-block mx-auto ">
+                          </a>
+
+                      </div>
+                      <div class="product-content">
+                          <div class="product-rating">
+                              <small>{{ product.category }}</small>
+                          </div>
+                          <h6 class="product-name" style=" font-weight: 600; ">
+                              <a href="{% url 'product-page' product.slug %}" class="text-truncate w-100">{{ product.title }}</a>
+                          </h6>
+                          <h6 class="product-price">
+                              {% if product.sale_price > 0 %}
+                              <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                              {% else %}
+                              <span>{{ product.price }} جنيه</span>
+                              {% endif %}
+                          </h6>
+                          {% if slug %}
+                          <form method="post" action="../add_to_cart/">
+                          {% else %}
+                          <form method="post" action="/add_to_cart/">
+                          {% endif %}
+                              {% csrf_token %}
+                              <input type="hidden" name="product" value="{{ product.id }}" />
+                              <input type="hidden" name="quantity" value="1" />
+                              <input type="hidden" name="cart" value="{{user.id}}" />
+                              <button class="product-add" title="Add to Cart">
+                                <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                              </button>
+                          </form>
+                      </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if category2 %}
+            <div class="tab-pane fade" id="{{ category2_slug }}">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                  {% for product in  category2 %}
+                  <div class="col">
+                      <div class="product-card">
+                      <div class="product-media">
+                          <div class="product-label">
+                              {% if product.discount_percentage %}
+                              <label class="label-text new p-2">
+                              خصم {{ product.discount_percentage }}%
+                              </label>
+                              {% endif %}
+                          </div>
+                          <a class="product-image d-flex justify-content-center" href="{% url 'product-page' product.slug %}">
+                          <img src="{{ product.main_image.url }}" alt="product" height="190" class="d-block mx-auto ">
+                          </a>
+
+                      </div>
+                      <div class="product-content">
+                          <div class="product-rating">
+                              <small>{{ product.category }}</small>
+                          </div>
+                          <h6 class="product-name" style=" font-weight: 600; ">
+                              <a href="{% url 'product-page' product.slug %}" class="text-truncate w-100">{{ product.title }}</a>
+                          </h6>
+                          <h6 class="product-price">
+                              {% if product.sale_price > 0 %}
+                              <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                              {% else %}
+                              <span>{{ product.price }} جنيه</span>
+                              {% endif %}
+                          </h6>
+                          {% if slug %}
+                          <form method="post" action="../add_to_cart/">
+                          {% else %}
+                          <form method="post" action="/add_to_cart/">
+                          {% endif %}
+                              {% csrf_token %}
+                              <input type="hidden" name="product" value="{{ product.id }}" />
+                              <input type="hidden" name="quantity" value="1" />
+                              <input type="hidden" name="cart" value="{{user.id}}" />
+                              <button class="product-add" title="Add to Cart">
+                                <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                              </button>
+                          </form>
+                      </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if category3 %}
+            <div class="tab-pane fade" id="{{ category3_slug }}">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                  {% for product in  category3 %}
+                  <div class="col">
+                      <div class="product-card">
+                      <div class="product-media">
+                          <div class="product-label">
+                              {% if product.discount_percentage %}
+                              <label class="label-text new p-2">
+                              خصم {{ product.discount_percentage }}%
+                              </label>
+                              {% endif %}
+                          </div>
+                          <a class="product-image d-flex justify-content-center" href="{% url 'product-page' product.slug %}">
+                          <img src="{{ product.main_image.url }}" alt="product" height="190" class="d-block mx-auto ">
+                          </a>
+
+                      </div>
+                      <div class="product-content">
+                          <div class="product-rating">
+                              <small>{{ product.category }}</small>
+                          </div>
+                          <h6 class="product-name" style=" font-weight: 600; ">
+                              <a href="{% url 'product-page' product.slug %}" class="text-truncate w-100">{{ product.title }}</a>
+                          </h6>
+                          <h6 class="product-price">
+                              {% if product.sale_price > 0 %}
+                              <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                              {% else %}
+                              <span>{{ product.price }} جنيه</span>
+                              {% endif %}
+                          </h6>
+                          {% if slug %}
+                          <form method="post" action="../add_to_cart/">
+                          {% else %}
+                          <form method="post" action="/add_to_cart/">
+                          {% endif %}
+                              {% csrf_token %}
+                              <input type="hidden" name="product" value="{{ product.id }}" />
+                              <input type="hidden" name="quantity" value="1" />
+                              <input type="hidden" name="cart" value="{{user.id}}" />
+                              <button class="product-add" title="Add to Cart">
+                                <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                              </button>
+                          </form>
+                      </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-btn-25">
+                        <a href="{% url 'all_products' %}" class="btn btn-outline"><i class="fas fa-eye"></i><span>جميع المنتجات</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </section>
+
+
+
+
+
+{% endblock content %}

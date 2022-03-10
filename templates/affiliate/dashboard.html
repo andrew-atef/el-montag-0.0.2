@@ -1,0 +1,147 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+
+{% block js %}
+<script>
+    function generateFunction() {
+        /* Get the text field */
+        var url = document.getElementById("theUrl");
+        if (url.value.includes("127.0.0.1:8000/product") && !url.value.includes("/?a")) {
+            console.log()
+            if(url.value.split("")[url.value.split("").length - 1] == '/'){
+                url.value += '?a={{ profile.affiliate_code }}'
+            }else{
+                url.value += '/?a={{ profile.affiliate_code }}'
+            }     
+        }else{
+            document.getElementById("errorUrl").innerText = 'الرابط خطا'
+        }
+    }
+
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("myInput");
+        navigator.clipboard.writeText(copyText.innerText);
+      }
+    </script>
+{% endblock js %}
+
+{% block title %}
+لوحه التحكم - المنتج
+{% endblock title %}
+
+{% block content %}
+
+<section class="inner-section shop-part my-5">
+    <div class="container">
+       <div class="row content-reverse">
+        {% if messages %}
+        {% for message in messages %}
+              {% if message.tags == 'error' %} 
+                 <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+              {% else %}
+              <div class="alert-info"><p>{{ message }}</p></div>
+              {% endif %}
+           {% endfor %}
+        {% endif %}
+          <div class="col-lg-3">
+            <div class="shop-widget">
+                <ul class="banner-category-list p-0">
+                    <li class="banner-category-item">
+                        {% if dashboard is True %}
+                        <a href="{% url 'affiliate_dashboard' %}" style=" color: #fff; background-color: #48c138; "><span>الرئيسية</span></a>
+                        {% else %}
+                        <a href="{% url 'affiliate_dashboard' %}"><span>الرئيسية</span></a>
+                        {% endif %}
+   
+                        {% if customer_orders is True %}
+                        <a href="{% url 'customer_orders' %}" style=" color: #fff; background-color: #48c138; "><span>طلبات العملاء</span></a>
+                        {% else %}
+                        <a href="{% url 'customer_orders' %}"><span>طلبات العملاء</span></a>
+                        {% endif %}
+                        
+                        {% if billing is True %}
+                        <a href="{% url 'billing' %}" style=" color: #fff; background-color: #48c138; "><span>سحب الارباح</span></a>
+                        {% else %}
+                        <a href="{% url 'billing' %}"><span>سحب الارباح</span></a>
+                        {% endif %}
+                     </li>
+                 </ul>
+             </div>
+          </div>
+          <div class="col-lg-9">
+             <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                        <div class="alert-info" bis_skin_checked="1" style="min-height: 124px;">
+                            <h4>إجمالي المبيعات</h4>
+                            <p class="my-3">{{ total_sales }} جنيه</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                        <div class="alert-info" bis_skin_checked="1" style="min-height: 124px;">
+                            <h4>الربح</h4>
+                            <p class="my-3">{{ my_earn }} جنيه</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                        <div class="alert-info" bis_skin_checked="1" style="min-height: 124px;">
+                            <h4>طلبات تم تسليمها</h4>
+                            <p class="my-3">{{ Orders_Delivered }} اوردر</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                        <div class="alert-info" bis_skin_checked="1" style="min-height: 124px;">
+                            <h4>لم تستلم بعد</h4>
+                            <p class="my-3">{{ all_Orders }} اوردر</p>
+                        </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <h3 class="my-2">كيف ابدا فى تحقيق الارباح:</h3>
+                <p><strong>الطريقه الاولى </strong>هى الترويج لهذا الكوبون على مواقع السوشيل ميدياء او الموقع الخاص بك او اى وسيله اخرى</p>
+                <p>  وكل عميل هيشترى اى منتج على الموقع ويستخدم الكوبون بتاعك هياخد خصم على جميع المنتجات وانت هتاخد عموله ممكن توصل الى 25% من قيمه مشتريات العميل</p>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-auto">
+                        <div class="offer-card m-3">
+                            <a href="#"><img src="{% static 'images/offer/02.jpg' %}" alt="offer"></a>
+                            <div class="offer-div">
+                                <h5 class="offer-code" id="myInput">{{ profile.affiliate_coupon }}</h5>
+                                <button onclick="myFunction()" class="offer-select">نسخ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <p><strong>الطريقه الثانيه </strong>هى الترويج المباشر لرابط اى منتج من منتجاتنا</p>
+                <p>و انت هتاخد عموله توصل الى 25% من كل عميل هيدخل على الموقع ويشترى اى منتج من الرابط بتاعك</p>
+                <p class="mt-2">1- افتح الموقع وادخل على اى منتج</p>
+                <p>2- انسخ رابط المنتج</p>
+                <p>3- الصق رابط المنتج هنا ودوس توليد رابط</p>                
+                <p>4- خد الرابط ده وروج ليه واربح معا كل عميل هيدخل ويشترى </p>                
+                <div class="row bg-white my-3">
+                    <div class="col-auto w-100">
+                        <h4 class="my-2">ادخل رابط المنتج</h4>
+                        <p id="errorUrl"></p>
+                        <div class="form-group d-flex justify-content-center">
+                            <input type="url" id="theUrl" class="form-control w-100" placeholder="مثال: ">
+                            <button onclick="generateFunction()" class="btn btn-success p-2 w-50 ">توليد رابط</button>
+                         </div>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+{% endblock content %}
+
+
+
+

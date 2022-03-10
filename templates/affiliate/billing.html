@@ -1,0 +1,181 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+
+{% block js %}
+<script>
+
+</script>
+{% endblock js %}
+
+{% block title %}
+سحب الارباح - المنتج
+{% endblock title %}
+
+{% block content %}
+
+<section class="inner-section shop-part my-5">
+    <div class="container">
+       <div class="row content-reverse">
+          <div class="col-lg-3">
+            <div class="shop-widget">
+                <ul class="banner-category-list p-0">
+                  <li class="banner-category-item">
+                     {% if dashboard is True %}
+                     <a href="{% url 'affiliate_dashboard' %}" style=" color: #fff; background-color: #48c138; "><span>الرئيسية</span></a>
+                     {% else %}
+                     <a href="{% url 'affiliate_dashboard' %}"><span>الرئيسية</span></a>
+                     {% endif %}
+
+                     {% if customer_orders is True %}
+                     <a href="{% url 'customer_orders' %}" style=" color: #fff; background-color: #48c138; "><span>طلبات العملاء</span></a>
+                     {% else %}
+                     <a href="{% url 'customer_orders' %}"><span>طلبات العملاء</span></a>
+                     {% endif %}
+                     
+                     {% if billing is True %}
+                     <a href="{% url 'billing' %}" style=" color: #fff; background-color: #48c138; "><span>سحب الارباح</span></a>
+                     {% else %}
+                     <a href="{% url 'billing' %}"><span>سحب الارباح</span></a>
+                     {% endif %}
+                  </li>
+                 </ul>
+             </div>
+          </div>
+          <div class="col-lg-9">
+             <div class="row">
+                <div class="account-card">
+                    <div class="account-title">
+                       <h4>بيانات الدفع</h4>
+                       <button data-bs-toggle="modal" data-bs-target="#profile-edit">تعديل</button>
+                    </div>
+                    <div class="account-content ">
+                       <div class="row">
+                        <b class="my-2">بيانات محفظة الموبيل (فودافون كاش-اورنج كاش-اتصالات كاش)</b>
+                          <div class="col-12">
+                             <div class="row">
+                                <div class="col-6">
+                                   <div class="form-group"><label class="form-label">اسم صاحب الموبيل</label><input disabled class="form-control" type="text" value="{{ user.first_name }}"></div>
+                                </div>
+                                <div class="col-6">
+                                   <div class="form-group"><label class="form-label">رقم الموبيل</label><input disabled class="form-control"  value="{{ user.last_name }}"></div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+             </div>
+
+             <div class="alert-info" bis_skin_checked="1" style="min-height: 124px;">
+                <h4>رصيدك الحالى</h4>
+                <p class="my-3">{{ my_earn }} جنيه</p>
+            </div>
+
+             <div class="row bg-white my-3">
+                <div class="col-auto w-100">
+                    <form method="post" action="/affiliate/add_billing/">
+                        {% csrf_token %}
+                    <h4 class="my-2">طلب سحب الارباح</h4>
+                    <label class="form-label text-dark font-18">المبلغ المراد تحويله <small class="text-primary font-14"> (المبلغ لايجب ان يقل عن 5 جنيه او يتعدى رصيدك الحالى) </small></label>
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="number" name="transfer_amount" class="form-control w-100" min='5' max='{{ my_earn }}' value="0">
+                        <input type="hidden" name="number1" class="form-control w-100"  value="{{ user.last_name }}">
+                        <button class="btn btn-success p-2 w-50 ">سحب الارباح</button>
+                     </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <h3 class="my-2 p-0">سحوباتي:</h3>
+                <ul class="list-group list-group-flush text-center p-0">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-2">التاريخ</div>
+                            <div class="col-3">مبلغ التحويل</div>
+                            <div class="col-3">رقم التحويل</div>
+                            <div class="col-4">حاله التحويل</div>
+                        </div>
+                    </li>
+                    {% for billi in billis %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-2">
+                                 {{ billi.created|date:"Y-m-d" }}
+                            </div>
+                            <div class="col-3">
+                                {{ billi.transfer_amount }} جنيه
+                            </div>
+                            <div class="col-3">
+                              {{ billi.number1 }}
+                            </div>
+                            <div class="col-3">
+                                {% if billi.status == 'تم التوصيل' %}
+                                <span class="badge bg-success m-0">{{ billi.status }}</span>
+                                {% elif billi.status == 'تعليق التوصيل' %}
+                                <span class="badge bg-warning m-0">{{ billi.status }}</span>
+                                {% elif billi.status == 'تم إلغاء أو رفض الطلب' %}
+                                <span class="badge bg-danger m-0">{{ billi.status }}</span>
+                                {% else %}
+                                <span class="badge bg-warning m-0">{{ billi.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+             </div>  
+
+
+
+            </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+
+ <div class="modal fade" id="profile-edit">
+    <div class="modal-dialog modal-dialog-centered">
+       <div class="modal-content">
+          <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+          <form class="modal-form" method="post" action="/update_profile/">
+             {% csrf_token %}
+             <div class="form-title">
+                <h3>edit profile info</h3>
+             </div>
+             <div class="form-group">
+                <label class="form-label">الإسم بالكامل</label>
+                <input class="form-control" type="text" name="first_name" value="{{ user.first_name }}" placeholder="يفضل ان يكون الاسم ثلاثي">
+             </div>
+             <div class="form-group">
+                <label class="form-label">رقم التليفون <small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+                <input class="form-control" type="text" name="number1" value="{{ user.last_name }}" placeholder="مثال : 01234567890">
+             </div>
+             <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input class="form-control" name="email" type="text" value="{{ user.username }}">
+                </div>
+             <button class="form-btn" type="submit">حفظ</button>
+          </form>
+ 
+ 
+       </div>
+    </div>
+ </div>
+ 
+{% endblock content %}
+
+
+
+

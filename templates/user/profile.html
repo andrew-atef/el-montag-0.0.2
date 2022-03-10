@@ -1,0 +1,382 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="{% static 'js/selectFilter.min.js' %}"></script>
+{% endblock js %}
+
+{% block title %}
+حسابك - المنتج
+{% endblock title %}
+
+{% block content %}
+
+<section class="inner-section profile-part my-4">
+   <div class="container">
+      <div class="row">
+         {% if messages %}
+               {% for message in messages %}
+                  <div class="alert alert-warning border-0 m-2" role="alert">
+                     {{ message }}
+                  </div>
+               {% endfor %}
+         {% endif %}
+
+
+
+         <div class="col-lg-8">
+            <div class="account-card">
+               <div class="account-title">
+                  <h4>حسابك</h4>
+                  <button data-bs-toggle="modal" data-bs-target="#profile-edit">تعديل</button>
+               </div>
+               <div class="account-content ">
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="row">
+                           <div class="col-6">
+                              <div class="form-group"><label class="form-label">الاسم</label><input disabled class="form-control" type="text" value="{{ user.first_name }}"></div>
+                           </div>
+                           <div class="col-6">
+                              <div class="form-group"><label class="form-label">البريد الإلكتروني</label><input disabled class="form-control" type="email" value="{{ user.username }}"></div>
+                           </div>
+                           <div class="col-6">
+                              <div class="form-group"><label class="form-label">رقم التليفون</label><input disabled class="form-control"  value="{{ user.last_name }}"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <div class="account-card">
+               <div class="account-title">
+                  <h4>تغيير كلمة المرور</h4>
+               </div>
+               <div class="account-content ">
+                  <div class="row">
+                     <div class="col-12">
+                        <form class="user-form" method="post" action="/update_password/">
+                           {% csrf_token %}
+                           <div class="form-group">
+                              <input type="password" name="current_password" class="form-control" placeholder="كلمة المرور الحالية">
+                           </div><div class="form-group">
+                              <input type="password" name="password1" class="form-control" placeholder="كلمة مرور جديدة">
+                           </div>
+                           <div class="form-group">
+                              <input type="password" name="password2" class="form-control" placeholder="إعادة كتابة كلمة المرور الجديدة">
+                           </div>
+                           <div class="form-button">
+                              <button class="btn btn-success w-100" style=" background: #119744; border: 0px; " type="submit">تغيير كلمة المرور</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+
+      <hr>
+
+         <div class="col-lg-12">
+            <div class="account-card" id="address">
+               <div class="account-title">
+                  <h4>عنوان الشحن</h4>
+                  <button data-bs-toggle="modal" data-bs-target="#contact-add">اضف عنوان جديد </button>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     {% if addresses %}
+                     {% for address in addresses %}
+                     <div class="col-md-4 col-lg-4 alert fade show">
+                        {% if address.active is True %}
+                        <div class="profile-card contact {{ address.id }} active">
+                        {% else %}
+                        <div class="profile-card {{ address.id }} contact">
+                        {% endif %}
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong>الاسم :</strong>{{ address.full_name }}
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              {% if address.number2 %}
+                              <div class="col-6">
+                                 <strong style="display: block;">رقم التليفون: </strong> {{ address.number1 }}
+                              </div>
+                              <div class="col-6">
+                                 <strong style="display: block;"> الرقم البديل: </strong> {{ address.number2 }}
+                              </div>
+                              {% else %}
+                              <div class="col-12">
+                                 <strong style="display: block;">رقم التليفون: </strong> {{ address.number1 }}
+                              </div>
+                              {% endif %}
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              <div class="col-6">
+                                 <strong style="display: block;">المحافظة : </strong>{{ address.governorate }}
+                              </div>
+                              <div class="col-6">
+                                 <strong style="display: block;">المنطقه : </strong>{{ address.region }}
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong style="display: block;">العنوان : </strong><p>{{ address.address }}</p>
+                              </div>
+                           </div>
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong>مصاريف الشحن لهذا العنوان : </strong>{{ address.shipping }} جنيه
+                              </div>
+                           </div>
+                           <div class="row mt-2">
+                              {% if address.active is True %}
+                              <div class="col">
+                                 <button class="btn btn-success w-100 p-2 " disabled>سيتم التوصيل على هذا العنوان</button>
+                              </div>
+                              {% else %}
+                              <div class="col">
+                                 <a href="../activate_address/{{ address.id }}/" class="btn btn-success w-100 p-2">اختار هذا العنوان</a>
+                              </div>
+                              {% endif %}
+                           </div>
+
+                           <ul>
+                              <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#{{address.title}}"></button></li>
+                              <li><button onclick="window.location.href='../delete_address/{{ address.id }}/'" class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
+                           </ul>
+                        </div>
+                     </div>
+
+                     {% endfor %}
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</section>
+<div class="modal fade" id="profile-edit">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+
+
+
+
+
+
+
+         <form class="modal-form" method="post" action="/update_profile/">
+            {% csrf_token %}
+            <div class="form-title">
+               <h3>edit profile info</h3>
+            </div>
+            <div class="form-group">
+               <label class="form-label">الإسم بالكامل</label>
+               <input class="form-control" type="text" name="first_name" value="{{ user.first_name }}" placeholder="يفضل ان يكون الاسم ثلاثي">
+            </div>
+            <div class="form-group">
+               <label class="form-label">رقم التليفون <small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+               <input class="form-control" type="text" name="number1" value="{{ user.last_name }}" placeholder="مثال : 01234567890">
+            </div>
+            <div class="form-group">
+               <label class="form-label">البريد الإلكتروني</label>
+               <input class="form-control" name="email" type="text" value="{{ user.username }}">
+               </div>
+            <button class="form-btn" type="submit">حفظ</button>
+         </form>
+
+
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="contact-add">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+         <form class="modal-form" method="post"  action="/add_address/">
+            <div class="form-title">
+               <h3>اضف عنوان جديد</h3>
+            </div>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">الإسم بالكامل<small class="text-danger font-14">*</small></label>
+                        <input type="text" name="full_name" class="form-control" placeholder="يفضل ان يكون الاسم ثلاثي" >
+                        <input type="hidden" name="user" value="{{ user.id }}">
+                        <input type="hidden" name="id" value="0">
+                    </div>
+                </div>                                               
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">رقم المحمول<small class="text-danger font-14">*</small><small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+                        <input type="text" name="number1" class="form-control" placeholder="مثال : 01234567890" >
+                    </div>
+                </div>                                              
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label text-dark font-18">الرقم البديل <small class="text-primary font-14"> (بالحروف الانجليزية) (اختياري) </small></label>
+                      <input type="text" name="number2" class="form-control" placeholder="مثال : 01234567890" >
+                  </div>
+              </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">المحافظه<small class="text-danger font-14">*</small></label>
+                        <select data-target="addsecondList" class="form-select addfirstList selectFilter" required="" name="governorate">                                                      
+                            <option value="">الرجاء الاختيار...</option>
+                            {% for governorate in governorates %}
+                            <option data-ref="{{ governorate }}" value="{{ governorate }}" >{{ governorate }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label id="c" class="form-label text-dark my-2 font-18">المنطقه - الحى<small class="text-danger font-14">*</small></label>
+                        <select class="form-select addsecondList selectFilter" data-target="thirdList" required="" id="c" name="region"> 
+                            <option value="">الرجاء الاختيار...</option>
+                            {{ regions|safe }}
+                        </select>
+                    </div>
+                </div>  
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-12">                            
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">العنوان بالتفصيل<small class="text-danger font-14">*</small><small class="text-primary font-14" style="display: block;">(المنطقة, اسم الشارع, رقم العقار , رقم الشقة)</small></label>
+                        <input type="text" name="address" class="form-control" placeholder="مثال : شارع كلية آداب - برج طيبة - عمارة 7 - الدور الخامس">
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row" bis_skin_checked="1">
+                <div class="col-md-12" bis_skin_checked="1">                            
+                    <div class="form-group" bis_skin_checked="1">
+                        <button type="submit" class="btn btn-block btn-primary m-2 font-18 w-100">اضافه العنوان</button>
+                    </div>
+                </div><!--end col-->
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+{% if addresses %}
+{% for address in addresses %}
+<div class="modal fade" id="{{ address.title }}">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+         <form class="modal-form" method="post"  action="/add_address/">
+            <div class="form-title">
+               <h3>تعديل العنوان</h3>
+            </div>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">الإسم بالكامل<small class="text-danger font-14">*</small></label>
+                        <input type="text" name="full_name" class="form-control" value="{{address.full_name }}" placeholder="يفضل ان يكون الاسم ثلاثي" >
+                        <input type="hidden" name="user" value="{{ user.id }}">
+                        <input type="hidden" name="title" value="{{ address.title }}">
+                        <input type="hidden" name="id" value="0">
+                    </div>
+                </div>                                               
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">رقم المحمول<small class="text-danger font-14">*</small><small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+                        <input type="text" name="number1" class="form-control" value="{{address.number1 }}" placeholder="مثال : 01234567890" >
+                    </div>
+                </div>                                              
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label text-dark font-18">الرقم البديل <small class="text-primary font-14"> (بالحروف الانجليزية) (اختياري) </small></label>
+                      <input type="text" name="number2" class="form-control" value="{{address.number2 }}"  placeholder="مثال : 01234567890" >
+                  </div>
+              </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">المحافظه<small class="text-danger font-14">*</small></label>
+                        <select data-target="{{ address.title }}secondList" class="form-select {{ address.title }}firstList selectFilter" required="" name="governorate">                                                      
+                            <option value="">الرجاء الاختيار...</option>
+                            {% for governorate in governorates %}
+                            <option data-ref="{{ governorate }}" value="{{ governorate }}" >{{ governorate }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label id="c" class="form-label text-dark my-2 font-18">المنطقه - الحى<small class="text-danger font-14">*</small></label>
+                        <select class="form-select {{ address.title }}secondList selectFilter" data-target="thirdList" required="" id="c" name="region"> 
+                            <option value="">الرجاء الاختيار...</option>
+                            {{ regions|safe }}
+                        </select>
+                    </div>
+                </div>  
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-12">                            
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">العنوان بالتفصيل<small class="text-danger font-14">*</small><small class="text-primary font-14" style="display: block;">(المنطقة, اسم الشارع, رقم العقار , رقم الشقة)</small></label>
+                        <input type="text" name="address" class="form-control" value="{{address.address }}" placeholder="مثال : شارع كلية آداب - برج طيبة - عمارة 7 - الدور الخامس">
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row" bis_skin_checked="1">
+                <div class="col-md-12" bis_skin_checked="1">                            
+                    <div class="form-group" bis_skin_checked="1">
+                        <button type="submit" class="btn btn-block btn-primary m-2 font-18 w-100">اضافه العنوان</button>
+                    </div>
+                </div><!--end col-->
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endblock content %}
+
+
+
+
+

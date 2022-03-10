@@ -1,0 +1,252 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script>
+   function actionPlus(theId){
+      document.getElementById(theId).value++
+   }
+   function actionMinus(theId){
+      var e = document.getElementById(theId).value
+      if(e > 1){
+         document.getElementById(theId).value--
+      }
+   }
+   
+</script>
+{% endblock js %}
+
+
+{% block title %}
+سياسة الخصوصية - المنتج
+{% endblock title %}
+
+{% block content %}
+<section class="inner-section checkout-part m-0">
+   <div class="container">
+      <div class="row mt-5">
+         {% if messages %}
+               {% for message in messages %}
+                  {% if message.tags == 'error' %} 
+                     <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+                  {% else %}
+                  <div class="alert-info"><p>{{ message }}</p></div>
+                  {% endif %}
+               {% endfor %}
+         {% endif %}
+         <div class="col-lg-12">
+            <div class="account-card" >
+               <div class="account-title">
+                  <h6>سياسة الخصوصية </h6>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     <div class="translations-content-container" bis_skin_checked="1">
+                        <div class="container" bis_skin_checked="1">
+                        <div class="tab-content translations-content-item en visible" id="en" bis_skin_checked="1">
+                        <h3 _msthash="74126" _msttexthash="3494400" style="direction: rtl; text-align: right;">سياسة الخصوصية</h3>
+                        <p _msthash="64675" _msttexthash="3434600" style="direction: rtl; text-align: right;">آخر تحديث: 08 مارس 2022</p>
+                        <p _msthash="64792" _msttexthash="212779099" style="direction: rtl; text-align: right;">تصف سياسة الخصوصية هذه سياساتنا وإجراءاتنا المتعلقة بجمع معلوماتك واستخدامها والكشف عنها عند استخدامك للخدمة وتخبرك بحقوق الخصوصية الخاصة بك وكيف يحميك القانون.</p>
+                        <p _msthash="64909" _msttexthash="282835982" style="direction: rtl; text-align: right;">نحن نستخدم بياناتك الشخصية لتوفير الخدمة وتحسينها. باستخدام الخدمة ، فإنك توافق على جمع واستخدام المعلومات وفقا لسياسة الخصوصية هذه. تم إنشاء سياسة الخصوصية هذه بمساعدة <a href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/" target="_blank" _istranslated="1">قالب سياسة الخصوصية</a>.</p>
+                        <h3 _msthash="74646" _msttexthash="4802317" style="direction: rtl; text-align: right;">التفسير والتعاريف</h3>
+                        <h6 _msthash="74880" _msttexthash="931736" style="direction: rtl; text-align: right;">تفسير</h6>
+                        <p _msthash="65260" _msttexthash="223108080" style="direction: rtl; text-align: right;">الكلمات التي يتم كتابة الحرف الأول منها بأحرف كبيرة لها معاني محددة وفقا للشروط التالية. يكون للتعاريف التالية نفس المعنى بغض النظر عما إذا كانت ترد بصيغة المفرد أو الجمع.</p>
+                        <h6 _msthash="75140" _msttexthash="1737814" style="direction: rtl; text-align: right;">التعاريف</h6>
+                        <p _msthash="65494" _msttexthash="7987785" style="direction: rtl; text-align: right;">لأغراض سياسة الخصوصية هذه:</p>
+                        <ul>
+                        <li>
+                        <p _msthash="270855" _msttexthash="45311968" style="direction: rtl; text-align: right;"><strong _istranslated="1">الحساب</strong> يعني حسابا فريدا تم إنشاؤه لك للوصول إلى خدمتنا أو أجزاء من خدمتنا.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271037" _msttexthash="74146228" style="direction: rtl; text-align: right;"><strong _istranslated="1">تشير الشركة</strong> (المشار إليها إما باسم "الشركة" أو "نحن" أو "لنا" أو "لنا" في هذه الاتفاقية) إلى المونتاج.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271219" _msttexthash="303875000" style="direction: rtl; text-align: right;"><strong _istranslated="1">ملفات تعريف الارتباط</strong> هي ملفات صغيرة يتم وضعها على جهاز الكمبيوتر الخاص بك أو جهازك المحمول أو أي جهاز آخر بواسطة موقع ويب ، وتحتوي على تفاصيل سجل التصفح الخاص بك على هذا الموقع من بين استخداماته العديدة.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271401" _msttexthash="4881110" style="direction: rtl; text-align: right;"><strong _istranslated="1">الدولة</strong> تشير إلى: مصر</p>
+                        </li>
+                        <li>
+                        <p _msthash="271583" _msttexthash="68459001" style="direction: rtl; text-align: right;"><strong _istranslated="1">الجهاز</strong> يعني أي جهاز يمكنه الوصول إلى الخدمة مثل جهاز كمبيوتر أو هاتف محمول أو جهاز لوحي رقمي.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271765" _msttexthash="38781145" style="direction: rtl; text-align: right;"><strong _istranslated="1">البيانات الشخصية</strong> هي أي معلومات تتعلق بفرد محدد أو يمكن التعرف عليه.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271947" _msttexthash="12647089" style="direction: rtl; text-align: right;">تشير <strong _istranslated="1">الخدمة</strong> إلى الموقع الإلكتروني.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272129" _msttexthash="552156020" style="direction: rtl; text-align: right;"><strong _istranslated="1">مقدم الخدمة</strong> يعني أي شخص طبيعي أو اعتباري يقوم بمعالجة البيانات نيابة عن الشركة. يشير إلى شركات الطرف الثالث أو الأفراد الذين تستخدمهم الشركة لتسهيل الخدمة أو لتقديم الخدمة نيابة عن الشركة أو لأداء الخدمات المتعلقة بالخدمة أو لمساعدة الشركة في تحليل كيفية استخدام الخدمة.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272311" _msttexthash="187268341" style="direction: rtl; text-align: right;">تشير <strong _istranslated="1">بيانات الاستخدام</strong> إلى البيانات التي يتم جمعها تلقائيا، إما عن طريق استخدام الخدمة أو من البنية التحتية للخدمة نفسها (على سبيل المثال، مدة زيارة الصفحة).</p>
+                        </li>
+                        <li>
+                        <p _msthash="290199" _msttexthash="18276700" style="direction: rtl; text-align: right;">يشير <strong _istranslated="1">الموقع</strong> إلى El montag ، ويمكن الوصول إليه من <a href="el-montag.com" rel="external nofollow noopener" target="_blank" _istranslated="1">el-montag.com</a></p>
+                        </li>
+                        <li>
+                        <p _msthash="290394" _msttexthash="175545344" style="direction: rtl; text-align: right;"><strong _istranslated="1">أنت</strong> تعني الفرد الذي يصل إلى الخدمة أو يستخدمها ، أو الشركة ، أو أي كيان قانوني آخر يقوم هذا الفرد نيابة عنه بالوصول إلى الخدمة أو استخدامها ، حسب الاقتضاء.</p>
+                        </li>
+                        </ul>
+                        <h3 _msthash="85111" _msttexthash="9811061" style="direction: rtl; text-align: right;">جمع واستخدام بياناتك الشخصية</h3>
+                        <h6 _msthash="85358" _msttexthash="9180457" style="direction: rtl; text-align: right;">أنواع البيانات التي تم جمعها</h6>
+                        <h3 _msthash="85605" _msttexthash="4336462" style="direction: rtl; text-align: right;">البيانات الشخصية</h3>
+                        <p _msthash="75296" _msttexthash="264025697" style="direction: rtl; text-align: right;">أثناء استخدام خدمتنا ، قد نطلب منك تزويدنا ببعض معلومات التعريف الشخصية التي يمكن استخدامها للاتصال بك أو التعرف عليك. قد تتضمن معلومات التعريف الشخصية ، على سبيل المثال لا الحصر ، ما يلي:</p>
+                        <ul>
+                        <li>
+                        <p _msthash="272155" _msttexthash="7398885" style="direction: rtl; text-align: right;">عنوان البريد الإلكتروني</p>
+                        </li>
+                        <li>
+                        <p _msthash="272337" _msttexthash="7376993" style="direction: rtl; text-align: right;">الاسم الأول واسم العائلة</p>
+                        </li>
+                        <li>
+                        <p _msthash="272519" _msttexthash="2049008" style="direction: rtl; text-align: right;">رقم الهاتف</p>
+                        </li>
+                        <li>
+                        <p _msthash="272701" _msttexthash="41667938" style="direction: rtl; text-align: right;">العنوان، الولاية، المقاطعة، الرمز البريدي/الرمز البريدي، المدينة</p>
+                        </li>
+                        <li>
+                        <p _msthash="272883" _msttexthash="4328220" style="direction: rtl; text-align: right;">بيانات الاستخدام</p>
+                        </li>
+                        </ul>
+                        <h3 _msthash="86034" _msttexthash="4328220" style="direction: rtl; text-align: right;">بيانات الاستخدام</h3>
+                        <p _msthash="75686" _msttexthash="25905399" style="direction: rtl; text-align: right;">يتم جمع بيانات الاستخدام تلقائيا عند استخدام الخدمة.</p>
+                        <p _msthash="75816" _msttexthash="473723484" style="direction: rtl; text-align: right;">قد تتضمن بيانات الاستخدام معلومات مثل عنوان بروتوكول الإنترنت الخاص بجهازك (مثل عنوان IP) ونوع المتصفح وإصدار المتصفح وصفحات خدمتنا التي تزورها ووقت وتاريخ زيارتك والوقت الذي تقضيه في تلك الصفحات ومعرفات الجهاز الفريدة والبيانات التشخيصية الأخرى.</p>
+                        <p _msthash="75946" _msttexthash="854018191" style="direction: rtl; text-align: right;">عند الوصول إلى الخدمة عن طريق أو من خلال جهاز محمول ، قد نقوم بجمع معلومات معينة تلقائيا ، بما في ذلك ، على سبيل المثال لا الحصر ، نوع الجهاز المحمول الذي تستخدمه ، والمعرف الفريد لجهازك المحمول ، وعنوان IP لجهازك المحمول ، ونظام تشغيل هاتفك المحمول ، ونوع متصفح الإنترنت المحمول الذي تستخدمه ، ومعرفات الجهاز الفريدة والبيانات التشخيصية الأخرى.</p>
+                        <p _msthash="74893" _msttexthash="119309749" style="direction: rtl; text-align: right;">قد نقوم أيضا بجمع المعلومات التي يرسلها متصفحك كلما قمت بزيارة خدمتنا أو عند الوصول إلى الخدمة عن طريق أو من خلال جهاز محمول.</p>
+                        <h3 _msthash="85449" _msttexthash="14077401" style="direction: rtl; text-align: right;">تقنيات التتبع وملفات تعريف الارتباط</h3>
+                        <p _msthash="75153" _msttexthash="497150940" style="direction: rtl; text-align: right;">نحن نستخدم ملفات تعريف الارتباط وتقنيات التتبع المماثلة لتتبع النشاط على خدمتنا وتخزين معلومات معينة. تقنيات التتبع المستخدمة هي المنارات والعلامات والبرامج النصية لجمع المعلومات وتتبعها وتحسين خدمتنا وتحليلها. قد تتضمن التقنيات التي نستخدمها ما يلي:</p>
+                        <ul>
+                        <li _msthash="182819" _msttexthash="1116977056" style="direction: rtl; text-align: right;"><strong _istranslated="1">ملفات تعريف الارتباط أو ملفات تعريف ارتباط المتصفح.</strong> ملف تعريف الارتباط هو ملف صغير يوضع على جهازك. يمكنك توجيه متصفحك لرفض جميع ملفات تعريف الارتباط أو للإشارة إلى وقت إرسال ملف تعريف الارتباط. ومع ذلك ، إذا كنت لا تقبل ملفات تعريف الارتباط ، فقد لا تتمكن من استخدام بعض أجزاء خدمتنا. ما لم تقم بتعديل إعداد المتصفح الخاص بك بحيث يرفض ملفات تعريف الارتباط ، قد تستخدم خدمتنا ملفات تعريف الارتباط.</li>
+                        <li _msthash="182949" _msttexthash="1348554272" style="direction: rtl; text-align: right;"><strong _istranslated="1">ملفات تعريف ارتباط الفلاش.</strong> قد تستخدم بعض ميزات خدمتنا الكائنات المخزنة المحلية (أو ملفات تعريف ارتباط فلاش) لجمع وتخزين معلومات حول تفضيلاتك أو نشاطك على خدمتنا. لا تتم إدارة ملفات تعريف ارتباط الفلاش بواسطة نفس إعدادات المتصفح المستخدمة في ملفات تعريف ارتباط المتصفح. لمزيد من المعلومات حول كيفية حذف ملفات تعريف ارتباط Flash ، يرجى قراءة "أين يمكنني تغيير إعدادات تعطيل أو حذف الكائنات المشتركة المحلية؟" متوفر على <a href="https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_" rel="external nofollow noopener" target="_blank" _istranslated="1">https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_</a></li>
+                        <li _msthash="183079" _msttexthash="1283952709" style="direction: rtl; text-align: right;"><strong _istranslated="1">منارات الويب.</strong> قد تحتوي أقسام معينة من خدمتنا ورسائل البريد الإلكتروني الخاصة بنا على ملفات إلكترونية صغيرة تعرف باسم إشارات الويب (يشار إليها أيضا باسم صور gif الواضحة وعلامات البكسل وصور GIF أحادية البكسل) التي تسمح للشركة ، على سبيل المثال ، بحساب المستخدمين الذين زاروا تلك الصفحات أو فتحوا بريدا إلكترونيا ولإحصائيات موقع الويب الأخرى ذات الصلة (على سبيل المثال ، تسجيل شعبية قسم معين والتحقق من سلامة النظام والخادم).</li>
+                        </ul>
+                        <p _msthash="75413" _msttexthash="999446136" style="direction: rtl; text-align: right;">يمكن أن تكون ملفات تعريف الارتباط ملفات تعريف ارتباط "دائمة" أو "جلسة". تبقى ملفات تعريف الارتباط الدائمة على جهاز الكمبيوتر الشخصي أو الجهاز المحمول الخاص بك عندما تكون غير متصل بالإنترنت ، بينما يتم حذف ملفات تعريف ارتباط الجلسة بمجرد إغلاق متصفح الويب الخاص بك. تعرف على المزيد حول ملفات تعريف الارتباط: <a href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking" target="_blank" _istranslated="1">استخدام ملفات تعريف الارتباط بواسطة سياسة الخصوصية المجانية</a>.</p>
+                        <p _msthash="75543" _msttexthash="61638668" style="direction: rtl; text-align: right;">نحن نستخدم كل من ملفات تعريف الارتباط الخاصة بالجلسة والدائمة للأغراض الموضحة أدناه:</p>
+                        <ul>
+                        <li>
+                        <p style="direction: rtl; text-align: right;"><strong _msthash="272662" _msttexthash="16678181">ملفات تعريف الارتباط الضرورية / الأساسية</strong></p>
+                        <p _msthash="272779" _msttexthash="11612003" style="direction: rtl; text-align: right;">النوع: ملفات تعريف ارتباط الجلسة</p>
+                        <p _msthash="272896" _msttexthash="3182582" style="direction: rtl; text-align: right;">تدار من قبل: نحن</p>
+                        <p _msthash="273013" _msttexthash="848431662" style="direction: rtl; text-align: right;">الغرض: تعد ملفات تعريف الارتباط هذه ضرورية لتزويدك بالخدمات المتاحة من خلال الموقع الإلكتروني ولتمكينك من استخدام بعض ميزاته. فهي تساعد على مصادقة المستخدمين ومنع الاستخدام الاحتيالي لحسابات المستخدمين. بدون ملفات تعريف الارتباط هذه ، لا يمكن توفير الخدمات التي طلبتها ، ونحن نستخدم ملفات تعريف الارتباط هذه فقط لتزويدك بهذه الخدمات.</p>
+                        </li>
+                        <li>
+                        <p style="direction: rtl; text-align: right;"><strong _msthash="272844" _msttexthash="35504794">سياسة ملفات تعريف الارتباط / ملفات تعريف الارتباط قبول الإشعار</strong></p>
+                        <p _msthash="272961" _msttexthash="13831753" style="direction: rtl; text-align: right;">النوع: ملفات تعريف الارتباط الدائمة</p>
+                        <p _msthash="273078" _msttexthash="3182582" style="direction: rtl; text-align: right;">تدار من قبل: نحن</p>
+                        <p _msthash="273195" _msttexthash="116714819" style="direction: rtl; text-align: right;">الغرض: تحدد ملفات تعريف الارتباط هذه ما إذا كان المستخدمون قد قبلوا استخدام ملفات تعريف الارتباط على الموقع الإلكتروني.</p>
+                        </li>
+                        <li>
+                        <p style="direction: rtl; text-align: right;"><strong _msthash="273026" _msttexthash="10488933">ملفات تعريف الارتباط الوظيفية</strong></p>
+                        <p _msthash="273143" _msttexthash="13831753">النوع: ملفات تعريف الارتباط الدائمة</p>
+                        <p _msthash="273260" _msttexthash="3182582">تدار من قبل: نحن</p>
+                        <p _msthash="273377" _msttexthash="579917572" style="direction: rtl; text-align: right;">الغرض: تسمح لنا ملفات تعريف الارتباط هذه بتذكر الخيارات التي تقوم بها عند استخدامك للموقع، مثل تذكر تفاصيل تسجيل الدخول الخاصة بك أو تفضيلات اللغة. الغرض من ملفات تعريف الارتباط هذه هو تزويدك بتجربة شخصية أكثر وتجنب الاضطرار إلى إعادة إدخال تفضيلاتك في كل مرة تستخدم فيها الموقع.</p>
+                        </li>
+                        </ul>
+                        <p _msthash="75803" _msttexthash="343605860" style="direction: rtl; text-align: right;">لمزيد من المعلومات حول ملفات تعريف الارتباط التي نستخدمها واختياراتك فيما يتعلق بملفات تعريف الارتباط ، يرجى زيارة سياسة ملفات تعريف الارتباط الخاصة بنا أو قسم ملفات تعريف الارتباط في سياسة الخصوصية الخاصة بنا.</p>
+                        <h6 _msthash="86346" _msttexthash="7371624" style="direction: rtl; text-align: right;">استخدام بياناتك الشخصية</h6>
+                        <p _msthash="76063" _msttexthash="28064699" style="direction: rtl; text-align: right;">يجوز للشركة استخدام البيانات الشخصية للأغراض التالية:</p>
+                        <ul>
+                        <li>
+                        <p _msthash="271349" _msttexthash="34940321" style="direction: rtl; text-align: right;"><strong _istranslated="1">لتوفير خدمتنا والحفاظ عليها</strong>، بما في ذلك مراقبة استخدام خدمتنا.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271531" _msttexthash="194012195" style="direction: rtl; text-align: right;"><strong _istranslated="1">لإدارة حسابك:</strong> لإدارة تسجيلك كمستخدم للخدمة. يمكن أن تمنحك البيانات الشخصية التي تقدمها إمكانية الوصول إلى الوظائف المختلفة للخدمة المتاحة لك كمستخدم مسجل.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271713" _msttexthash="132376270" style="direction: rtl; text-align: right;"><strong _istranslated="1">لتنفيذ العقد:</strong> تطوير والامتثال والتعهد بعقد الشراء للمنتجات أو العناصر أو الخدمات التي اشتريتها أو أي عقد آخر معنا من خلال الخدمة.</p>
+                        </li>
+                        <li>
+                        <p _msthash="271895" _msttexthash="963953978" style="direction: rtl; text-align: right;"><strong _istranslated="1">للاتصال بك:</strong> للاتصال بك عن طريق البريد الإلكتروني أو المكالمات الهاتفية أو الرسائل القصيرة أو غيرها من أشكال الاتصالات الإلكترونية المكافئة، مثل الإشعارات المباشرة لتطبيق الهاتف المحمول فيما يتعلق بالتحديثات أو الاتصالات الإعلامية المتعلقة بالوظائف أو المنتجات أو الخدمات المتعاقد عليها، بما في ذلك التحديثات الأمنية، عند الضرورة أو المعقولة لتنفيذها.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272077" _msttexthash="286409058" style="direction: rtl; text-align: right;"><strong _istranslated="1">لتزويدك بالأخبار</strong> والعروض الخاصة والمعلومات العامة حول السلع والخدمات والأحداث الأخرى التي نقدمها والتي تشبه تلك التي اشتريتها بالفعل أو استفسرت عنها ما لم تكن قد اخترت عدم تلقي هذه المعلومات.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272259" _msttexthash="15316782" style="direction: rtl; text-align: right;"><strong _istranslated="1">لإدارة طلباتك:</strong> لحضور وإدارة طلباتك لنا.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272441" _msttexthash="648097710" style="direction: rtl; text-align: right;"><strong _istranslated="1">للتحويلات التجارية:</strong> يجوز لنا استخدام معلوماتك لتقييم أو إجراء عملية دمج أو تصفية أو إعادة هيكلة أو إعادة تنظيم أو حل أو بيع أو نقل آخر لبعض أو كل أصولنا ، سواء كمنشأة عاملة أو كجزء من الإفلاس أو التصفية أو إجراء مماثل ، حيث تكون البيانات الشخصية التي نحتفظ بها عن مستخدمي خدمتنا من بين الأصول المنقولة.</p>
+                        </li>
+                        <li>
+                        <p _msthash="272623" _msttexthash="268968583" style="direction: rtl; text-align: right;"><strong _istranslated="1">لأغراض أخرى</strong>: قد نستخدم معلوماتك لأغراض أخرى، مثل تحليل البيانات وتحديد اتجاهات الاستخدام وتحديد فعالية حملاتنا الترويجية وتقييم وتحسين خدماتنا ومنتجاتنا وخدماتنا وتسويقنا وتجربتك.</p>
+                        </li>
+                        </ul>
+                        <p _msthash="75141" _msttexthash="20065123" style="direction: rtl; text-align: right;">قد نشارك معلوماتك الشخصية في الحالات التالية:</p>
+                        <ul>
+                        <li _msthash="182806" _msttexthash="85734233" style="direction: rtl; text-align: right;"><strong _istranslated="1">مع مقدمي الخدمة:</strong> قد نشارك معلوماتك الشخصية مع مزودي الخدمة لمراقبة وتحليل استخدام خدمتنا ، للاتصال بك.</li>
+                        <li _msthash="182936" _msttexthash="255690864" style="direction: rtl; text-align: right;"><strong _istranslated="1">للتحويلات التجارية:</strong> يجوز لنا مشاركة أو نقل معلوماتك الشخصية فيما يتعلق أو أثناء المفاوضات بشأن أي اندماج أو بيع أصول الشركة أو تمويل أو الاستحواذ على كل أو جزء من أعمالنا إلى شركة أخرى.</li>
+                        <li _msthash="183066" _msttexthash="545786995" style="direction: rtl; text-align: right;"><strong _istranslated="1">مع الشركات التابعة:</strong> يجوز لنا مشاركة معلوماتك مع الشركات التابعة لنا ، وفي هذه الحالة سنطلب من تلك الشركات التابعة احترام سياسة الخصوصية هذه. تشمل الشركات التابعة شركتنا الأم وأي شركات تابعة أخرى أو شركاء في مشروع مشترك أو شركات أخرى نسيطر عليها أو تخضع لسيطرة مشتركة معنا.</li>
+                        <li _msthash="183196" _msttexthash="87755213" style="direction: rtl; text-align: right;"><strong _istranslated="1">مع شركاء الأعمال:</strong> قد نشارك معلوماتك مع شركائنا التجاريين لنقدم لك منتجات أو خدمات أو عروض ترويجية معينة.</li>
+                        <li _msthash="183326" _msttexthash="256087962" style="direction: rtl; text-align: right;"><strong _istranslated="1">مع مستخدمين آخرين:</strong> عندما تشارك معلومات شخصية أو تتفاعل بطريقة أخرى في المناطق العامة مع مستخدمين آخرين، قد يتم عرض هذه المعلومات من قبل جميع المستخدمين وقد يتم توزيعها علنا في الخارج.</li>
+                        <li _msthash="183456" _msttexthash="38444978" style="direction: rtl; text-align: right;"><strong _istranslated="1">بموافقتك</strong>: يجوز لنا الكشف عن معلوماتك الشخصية لأي غرض آخر بموافقتك.</li>
+                        </ul>
+                        <h6 _msthash="85761" _msttexthash="8546694" style="direction: rtl; text-align: right;">الاحتفاظ ببياناتك الشخصية</h6>
+                        <p _msthash="75530" _msttexthash="774758790" style="direction: rtl; text-align: right;">ستحتفظ الشركة ببياناتك الشخصية فقط طالما كان ذلك ضروريا للأغراض المنصوص عليها في سياسة الخصوصية هذه. سنحتفظ ببياناتك الشخصية ونستخدمها بالقدر اللازم للامتثال لالتزاماتنا القانونية (على سبيل المثال، إذا طلب منا الاحتفاظ ببياناتك للامتثال للقوانين المعمول بها)، وحل النزاعات، وإنفاذ اتفاقياتنا وسياساتنا القانونية.</p>
+                        <p _msthash="75660" _msttexthash="510165396" style="direction: rtl; text-align: right;">ستحتفظ الشركة أيضا ببيانات الاستخدام لأغراض التحليل الداخلي. يتم الاحتفاظ ببيانات الاستخدام بشكل عام لفترة زمنية أقصر ، إلا عندما يتم استخدام هذه البيانات لتعزيز الأمان أو لتحسين وظائف خدمتنا ، أو نحن ملزمون قانونا بالاحتفاظ بهذه البيانات لفترات زمنية أطول.</p>
+                        <h6 _msthash="86190" _msttexthash="5273177" style="direction: rtl; text-align: right;">نقل بياناتك الشخصية</h6>
+                        <p _msthash="75920" _msttexthash="894893415" style="direction: rtl; text-align: right;">تتم معالجة معلوماتك ، بما في ذلك البيانات الشخصية ، في مكاتب تشغيل الشركة وفي أي أماكن أخرى توجد فيها الأطراف المشاركة في المعالجة. وهذا يعني أنه قد يتم نقل هذه المعلومات إلى - والاحتفاظ بها - على أجهزة الكمبيوتر الموجودة خارج ولايتك أو مقاطعتك أو بلدك أو أي ولاية قضائية حكومية أخرى حيث قد تختلف قوانين حماية البيانات عن تلك الموجودة في ولايتك القضائية.</p>
+                        <p _msthash="76050" _msttexthash="66794520" style="direction: rtl; text-align: right;">تمثل موافقتك على سياسة الخصوصية هذه متبوعة بتقديمك لهذه المعلومات موافقتك على هذا النقل.</p>
+                        <p _msthash="76180" _msttexthash="415971569" style="direction: rtl; text-align: right;">ستتخذ الشركة جميع الخطوات اللازمة بشكل معقول لضمان التعامل مع بياناتك بشكل آمن ووفقا لسياسة الخصوصية هذه ولن يتم نقل بياناتك الشخصية إلى منظمة أو بلد ما لم تكن هناك ضوابط كافية في مكانها بما في ذلك أمن بياناتك والمعلومات الشخصية الأخرى.</p>
+                        <h6 _msthash="85462" _msttexthash="7382648" style="direction: rtl; text-align: right;">الكشف عن بياناتك الشخصية</h6>
+                        <h3 _msthash="85709" _msttexthash="5261841" style="direction: rtl; text-align: right;">المعاملات التجارية</h3>
+                        <p _msthash="75387" _msttexthash="193497239" style="direction: rtl; text-align: right;">إذا كانت الشركة متورطة في عملية دمج أو استحواذ أو بيع أصول ، فقد يتم نقل بياناتك الشخصية. سنقدم إشعارا قبل نقل بياناتك الشخصية وتصبح خاضعة لسياسة خصوصية مختلفة.</p>
+                        <h3 _msthash="85995" _msttexthash="928928" style="direction: rtl; text-align: right;">انفاذ</h3>
+                        <p _msthash="75647" _msttexthash="192901553" style="direction: rtl; text-align: right;">في ظل ظروف معينة ، قد يطلب من الشركة الكشف عن بياناتك الشخصية إذا طلب منها ذلك بموجب القانون أو استجابة لطلبات صالحة من السلطات العامة (مثل محكمة أو وكالة حكومية).</p>
+                        <h3 _msthash="86281" _msttexthash="9183109" style="direction: rtl; text-align: right;">المتطلبات القانونية الأخرى</h3>
+                        <p _msthash="75907" _msttexthash="46697170" style="direction: rtl; text-align: right;">يجوز للشركة الكشف عن بياناتك الشخصية بحسن نية بأن هذا الإجراء ضروري من أجل:</p>
+                        <ul>
+                        <li _msthash="184041" _msttexthash="7397377" style="direction: rtl; text-align: right;">الامتثال لالتزام قانوني</li>
+                        <li _msthash="184171" _msttexthash="17383158" style="direction: rtl; text-align: right;">حماية حقوق أو ممتلكات الشركة والدفاع عنها</li>
+                        <li _msthash="184301" _msttexthash="29180554" style="direction: rtl; text-align: right;">منع أو التحقيق في المخالفات المحتملة فيما يتعلق بالخدمة</li>
+                        <li _msthash="184431" _msttexthash="23898914" style="direction: rtl; text-align: right;">حماية السلامة الشخصية لمستخدمي الخدمة أو الجمهور</li>
+                        <li _msthash="184561" _msttexthash="11197173" style="direction: rtl; text-align: right;">الحماية من المسؤولية القانونية</li>
+                        </ul>
+                        <h6 _msthash="86606" _msttexthash="5270538" style="direction: rtl; text-align: right;">أمن بياناتك الشخصية</h6>
+                        <p _msthash="76297" _msttexthash="402329252" style="direction: rtl; text-align: right;">إن أمن بياناتك الشخصية مهم بالنسبة لنا ، ولكن تذكر أنه لا توجد طريقة للإرسال عبر الإنترنت ، أو طريقة تخزين إلكترونية آمنة بنسبة 100٪. بينما نسعى جاهدين لاستخدام وسائل مقبولة تجاريا لحماية بياناتك الشخصية، لا يمكننا ضمان أمنها المطلق.</p>
+                        <h3 _msthash="85488" _msttexthash="3494101" style="direction: rtl; text-align: right;">خصوصية الأطفال</h3>
+                        <p _msthash="75374" _msttexthash="858819754" style="direction: rtl; text-align: right;">لا تخاطب خدمتنا أي شخص يقل عمره عن 13 عاما. نحن لا نجمع معلومات التعريف الشخصية عن قصد من أي شخص يقل عمره عن 13 عاما. إذا كنت أحد الوالدين أو الوصي وكنت على علم بأن طفلك قد زودنا ببيانات شخصية، يرجى الاتصال بنا. إذا علمنا أننا جمعنا بيانات شخصية من أي شخص يقل عمره عن 13 عاما دون التحقق من موافقة الوالدين ، فإننا نتخذ خطوات لإزالة هذه المعلومات من خوادمنا.</p>
+                        <p _msthash="75504" _msttexthash="221844870" style="direction: rtl; text-align: right;">إذا احتجنا إلى الاعتماد على الموافقة كأساس قانوني لمعالجة معلوماتك وكان بلدك يتطلب موافقة أحد الوالدين، فقد نطلب موافقة أحد والديك قبل أن نجمع تلك المعلومات ونستخدمها.</p>
+                        <h3 _msthash="85917" _msttexthash="4344379" style="direction: rtl; text-align: right;">روابط لمواقع أخرى</h3>
+                        <p _msthash="75764" _msttexthash="221534248" style="direction: rtl; text-align: right;">قد تحتوي خدمتنا على روابط لمواقع أخرى لا نقوم بتشغيلها. إذا قمت بالنقر فوق رابط جهة خارجية ، توجيهك إلى موقع الطرف الثالث. ننصحك بشدة بمراجعة سياسة الخصوصية لكل موقع تزوره.</p>
+                        <p _msthash="75894" _msttexthash="127985000" style="direction: rtl; text-align: right;">ليس لدينا أي سيطرة ولا نتحمل أي مسؤولية عن المحتوى أو سياسات الخصوصية أو الممارسات الخاصة بأي مواقع أو خدمات تابعة لجهات خارجية.</p>
+                        <h3 _msthash="86347" _msttexthash="18250362" style="direction: rtl; text-align: right;">التغييرات التي تطرأ على سياسة الخصوصية هذه</h3>
+                        <p _msthash="76154" _msttexthash="131892501" style="direction: rtl; text-align: right;">قد نقوم بتحديث سياسة الخصوصية الخاصة بنا من وقت لآخر. سنقوم بإعلامك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة.</p>
+                        <p _msthash="76284" _msttexthash="179371023" style="direction: rtl; text-align: right;">سنعلمك عبر البريد الإلكتروني و / أو إشعار بارز على خدمتنا ، قبل أن يصبح التغيير ساري المفعول وتحديث تاريخ "آخر تحديث" في الجزء العلوي من سياسة الخصوصية هذه.</p>
+                        <p _msthash="76414" _msttexthash="143786331" style="direction: rtl; text-align: right;">ننصحك بمراجعة سياسة الخصوصية هذه بشكل دوري لمعرفة أي تغييرات. تسري التغييرات التي تطرأ على سياسة الخصوصية هذه عند نشرها على هذه الصفحة.</p>
+                        <h3 _msthash="85618" _msttexthash="1443949" style="direction: rtl; text-align: right;">اتصل بنا</h3>
+                        <p _msthash="75491" _msttexthash="34990254" style="direction: rtl; text-align: right;">إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يمكنك الاتصال بنا:</p>
+                        <ul>
+                        <li _msthash="183391" _msttexthash="13389311" style="direction: rtl; text-align: right;">من خلال زيارة هذه الصفحة على موقعنا: <a href="el-montag.com/" rel="external nofollow noopener" target="_blank" _istranslated="1">el-montag.com/</a></li>
+                        </ul>
+                        </div>
+                        </div>
+                        </div>
+
+
+                  </div>
+            </div>
+
+            </div>
+         </div>
+
+          
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+

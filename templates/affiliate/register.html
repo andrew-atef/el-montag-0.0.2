@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+   <!-- Mirrored from mironmahmud.com/greeny/assets/rtl/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Mar 2022 15:48:42 GMT -->
+   <!-- Added by HTTrack -->
+   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+   <!-- /Added by HTTrack -->
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="author" content="mironcoder">
+      <meta name="email" content="mironcoder@gmail.com">
+      <meta name="profile" content="https://themeforest.net/user/mironcoder">
+      <meta name="template" content="greeny">
+      <meta name="title" content="greeny - Ecommerce Food Store HTML Template">
+      <meta name="keywords" content="organic, food, shop, ecommerce, store, html, bootstrap, template, agriculture, vegetables, products, farm, grocery, natural, online">
+      <title>إنشاء حساب مسوق -المنتج</title>
+      <link rel="icon" href="{% static 'images/favicon.png' %}">
+      <link rel="stylesheet" href="{% static 'fonts/flaticon/flaticon.css' %}">
+      <link rel="stylesheet" href="{% static 'fonts/icofont/icofont.min.css' %}">
+      <link rel="stylesheet" href="{% static 'fonts/fontawesome/fontawesome.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendor/venobox/venobox.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendor/slickslider/slick.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendor/niceselect/nice-select.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/main.css' %}">
+      <link rel="stylesheet" href="{% static 'css/user-auth.css' %}">
+   </head>
+   <body>
+      <section class="user-form-part">
+         <div class="container">
+            <div class="row justify-content-center">
+               <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                  <div class="user-form-card">
+                     <div class="user-form-title">
+                        <h2>إنشاء حساب مسوق</h2>
+                        <p> هل لديك حساب مسوق بالفعل؟ <a class="text-success" href="{% url 'affiliate-login' %}">تسجيل الدخول</a></p>
+                     </div>
+                     <div class="user-form-group my-3">
+                        <form class="user-form" method="post" >
+                            {% csrf_token %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-warning border-0 m-2" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}  
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="first_name">الاسم </label>
+                                <input type="text" class="form-control" id="first_name" required name="first_name" placeholder="الاسم كامل">                               
+                            </div><!--end form-group-->
+
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="email">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" style="text-align: right;" required id="email" name="email" placeholder="البريد الإلكتروني">                               
+                            </div><!--end form-group--> 
+
+                            <div class="form-group mb-2">
+                              <label class="form-label" for="first_name">رقم التليفون </label>
+                              <input type="text" class="form-control" id="number1" name="number1" required placeholder="مثال : 01234567890">                               
+                            </div><!--end form-group-->
+
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="userpassword">كلمه السر</label>                                            
+                                <input type="password" class="form-control" name="password1" required id="userpassword" placeholder="كلمه السر">                            
+                            </div><!--end form-group--> 
+
+                            <div class="form-group">
+                              <label for="notes">كيف تسوق المنتجات</label>
+                              <textarea class="form-control" id="notes" name="notes" required placeholder="مثال : عبر صفحتى على الفيسبوك وهذا الرابط facebook.com/xxxxxx" rows="3"></textarea>
+                            </div>
+
+                           <div class="form-button">
+                              <button type="submit">إنشاء حساب مسوق</button>
+                              <a href="{% url 'reset_password' %}" class="my-2">نسيت كلمه المرور?</a>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               <div class="user-form-footer">
+                                     <p> حقوق الطبع والنشر © لعام 1996-2022 محفوظة لشركة Amazon.com </p>
+             </div>
+            </div>
+         </div>
+      </section>
+      <script src="{% static 'vendor/bootstrap/jquery-1.12.4.min.js' %}"></script><script src="{% static 'vendor/bootstrap/popper.min.js' %}"></script><script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script><script src="{% static 'vendor/countdown/countdown.min.js' %}"></script><script src="{% static 'vendor/niceselect/nice-select.min.js' %}"></script><script src="{% static 'vendor/slickslider/slick.min.js' %}"></script><script src="{% static 'vendor/venobox/venobox.min.js' %}"></script><script src="js/nice-select.js' %}"></script><script src="js/countdown.js' %}"></script><script src="js/accordion.js' %}"></script><script src="js/venobox.js' %}"></script><script src="js/slick.js' %}"></script><script src="js/main.js' %}"></script>
+   </body>
+   <!-- Mirrored from mironmahmud.com/greeny/assets/rtl/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Mar 2022 15:48:42 GMT -->
+</html>

@@ -1,0 +1,290 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product-details.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script>
+   function actionPlus(){
+      document.getElementById('Oquantity').value++
+   }
+   function actionMinus(){
+      var e = document.getElementById('Oquantity').value
+      if(e > 1){
+         document.getElementById('Oquantity').value--
+      }
+   }
+   
+</script>
+{% endblock js %}
+
+
+{% block title %}
+{{ product.title }} - المنتج
+{% endblock title %}
+
+{% block content %}
+<div class="modal fade" id="product-view">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+          <div class="product-view">
+             <div class="row">
+                <div class="col-md-6 col-lg-6">
+                   <div class="view-gallery">
+                      <div class="view-label-group">
+
+                        </div>
+                      <ul class="preview-slider slider-arrow">
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                      </ul>
+                      <ul class="thumb-slider">
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                         <li><img src="{% static 'images/product/01.jpg' %}" alt="product"></li>
+                      </ul>
+                   </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                   <div class="view-details">
+                      <h3 class="view-name"><a href="product-video.html">existing product name</a></h3>
+                      <div class="view-meta">
+                         <p>SKU:<span>1234567</span></p>
+                         <p>BRAND:<a href="#">radhuni</a></p>
+                      </div>
+                      <div class="view-rating"><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="icofont-star"></i><a href="product-video.html">(3 reviews)</a></div>
+                      <h3 class="view-price"><del>$38.00</del><span>$24.00<small>/per kilo</small></span></h3>
+                      <p class="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos reprehenderit fuga</p>
+                      <div class="view-list-group">
+                         <label class="view-list-title">tags:</label>
+                         <ul class="view-tag-list">
+                            <li><a href="#">organic</a></li>
+                            <li><a href="#">vegetable</a></li>
+                            <li><a href="#">chilis</a></li>
+                         </ul>
+                      </div>
+                      <div class="view-list-group">
+                         <label class="view-list-title">Share:</label>
+                         <ul class="view-share-list">
+                            <li><a href="#" class="icofont-facebook" title="Facebook"></a></li>
+                            <li><a href="#" class="icofont-twitter" title="Twitter"></a></li>
+                            <li><a href="#" class="icofont-linkedin" title="Linkedin"></a></li>
+                            <li><a href="#" class="icofont-instagram" title="Instagram"></a></li>
+                         </ul>
+                      </div>
+                      <div class="view-add-group">
+                         <button class="product-add" title="Add to Cart"><i class="fas fa-shopping-basket"></i><span>add to cart</span></button>
+                         <div class="product-action"><button class="action-minus" title="Quantity Minus"><i class="icofont-minus"></i></button><input class="action-input" title="Quantity Number" type="text" name="quantity" value="1"><button class="action-plus" title="Quantity Plus"><i class="icofont-plus"></i></button></div>
+                      </div>
+                      <div class="view-action-group"><a class="view-wish wish" href="#" title="Add Your Wishlist"><i class="icofont-heart"></i><span>add to wish</span></a><a class="view-compare" href="compare.html" title="Compare This Item"><i class="fas fa-random"></i><span>Compare This</span></a></div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+
+
+ <section class="inner-section my-4">
+    <div class="container">
+       <div class="row">
+
+         {% if messages %}
+            {% for message in messages %}
+               {% if message.tags == 'error' %} 
+                  <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+               {% else %}
+               <div class="alert-info" style="border-top: 3px solid var(--bs-dark);background: var(--primary);"><p class="text-white">{{ message }}</p></div>
+               {% endif %}
+            {% endfor %}
+         {% endif %}
+
+          <div class="col-lg-4">
+             <div class="details-gallery">
+                <div class="details-label-group">
+                    {% if product.discount_percentage %}
+                    <label class="label-text new p-2">
+                    خصم {{ product.discount_percentage }}%
+                    </label>
+                    {% endif %}
+                </div>
+                <ul class="details-preview">
+                    {% for img in product.all_image.all %}
+                    <li>
+                       <img src="{{img}}" alt="product" style=" max-height: 630px; ">
+                    </li>
+                    {% endfor %}
+                </ul>
+                <ul class="details-thumb">
+                    {% for img in product.all_image.all %}
+                    <li>
+                       <img src="{{img}}" alt="product" style=" max-height: 630px; ">
+                    </li>
+                    {% endfor %}
+                </ul>
+             </div>
+          </div>
+          <div class="col-lg-5">
+             <div class="details-content">
+                <h3 class="details-name"><a href="#">{{ product.title }}</a></h3>
+                <h3 class="details-price">
+                    {% if product.sale_price > 0 %}
+                    <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                    {% else %}
+                    <span>{{ product.price }} جنيه</span>
+                    {% endif %}                
+                  </h3>
+                <p class="details-desc">{{ desc|safe }}</p>
+
+                <div class="details-list-group my-3">
+                    <label class="view-list-title m-0">
+                        الفئة:
+                      </label>
+                      <ul class="view-tag-list">
+                         <li>
+                            <a href="#">{{ product.category }}</a>
+                         </li>
+                      </ul>
+                </div>
+                {% comment %} <div class="details-list-group">
+                   <label class="details-list-title">Share:</label>
+                   <ul class="details-share-list">
+                      <li><a href="#" class="icofont-facebook" title="Facebook"></a></li>
+                      <li><a href="#" class="icofont-twitter" title="Twitter"></a></li>
+                      <li><a href="#" class="icofont-linkedin" title="Linkedin"></a></li>
+                      <li><a href="#" class="icofont-instagram" title="Instagram"></a></li>
+                   </ul>
+                </div> {% endcomment %}
+
+                <p>عدد القطع:</p>
+                <div class="cart-action-group">
+                  <div class="product-action p-1">
+                     <button class="action-minus" onclick="actionMinus()" title="Quantity Minus">
+                        <i class="icofont-minus"></i>
+                     </button>
+                     <input class="action-input" title="Quantity Number" type="number" min="1" name="quantity" value="1">
+                     <button class="action-plus" onclick="actionPlus()" title="Quantity Plus">
+                        <i class="icofont-plus"></i>
+                     </button>
+                  </div>
+                  
+                  <form method="post" class="w-100" action="{% url 'add_to_cart' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="product" value="{{ product.id }}" />
+                      <input type="hidden" id="Oquantity" name="quantity" value="1" />
+                      <input type="hidden" name="cart" value="{{user.id}}" />
+                      <button class="btn btn-success w-100 p-2" style="background: #11b76b;color: #fff;border: 0px;" title="Add to Cart">
+                        <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                      </button>
+                  </form>
+
+
+               </div>
+
+
+
+             </div>
+          </div>
+          <div class="col-lg-3 my-2">
+            <div class="row">
+               {% for feature in features %}
+               <div class="col-12 col-sm-12 col-md-6 col-lg-12">
+                  <div class="blog-media"><a class="blog-img" href="#"><img src="{{ feature.image.url }}" alt="blog"></a></div>
+               </div>
+               {% endfor %}
+            </div>
+          </div>
+
+       </div>
+    </div>
+ </section>
+
+
+
+ <div class="row">
+   <div class="col">
+      <ul class="new-slider slider-arrow">
+        {% for product in  products %}
+            <li>
+                <div class="product-card">
+                   <div class="product-media">
+                      <div class="product-label">
+                          {% if product.discount_percentage %}
+                         <label class="label-text new p-2">
+                         خصم {{ product.discount_percentage }}%
+                         </label>
+                         {% endif %}
+                      </div>
+                      <a class="product-image d-flex justify-content-center" href="{% url 'product-page' product.slug %}">
+                      <img src="{{ product.main_image.url }}" alt="product" height="230" class="d-block mx-auto">
+                      </a>
+
+                   </div>
+                   <div class="product-content">
+                      <div class="product-rating">
+                        <small>{{ product.category }}</small>
+                      </div>
+                      <h6 class="product-name" style=" font-weight: 600; ">
+                         <a href="{% url 'product-page' product.slug %}" class="text-truncate w-100">{{ product.title }}</a>
+                      </h6>
+                      <h6 class="product-price">
+                          {% if product.sale_price > 0 %}
+                          <span>{{ product.sale_price }} جنيه <small><del>{{ product.price }} جنيه</del></small></span>
+                          {% else %}
+                          <span>{{ product.price }} جنيه</span>
+                          {% endif %}
+                      </h6>
+                      {% if slug %}
+                      <form method="post" action="../add_to_cart/">
+                      {% else %}
+                      <form method="post" action="/add_to_cart/">
+                      {% endif %}
+                          {% csrf_token %}
+                          <input type="hidden" name="product" value="{{ product.id }}" />
+                          <input type="hidden" name="quantity" value="1" />
+                          <input type="hidden" name="cart" value="{{user.id}}" />
+                          <button class="product-add" title="Add to Cart">
+                            <i class="fas fa-shopping-basket d-inline"></i><span>اضف للعربه</span>
+                          </button>
+                      </form>
+                   </div>
+                </div>
+             </li>
+        {% endfor %}
+      </ul>
+   </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

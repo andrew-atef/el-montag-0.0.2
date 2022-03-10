@@ -1,0 +1,425 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="{% static 'js/selectFilter.min.js' %}"></script>
+{% endblock js %}
+
+{% block title %}
+الدفع - المنتج
+{% endblock title %}
+
+{% block content %}
+<section class="inner-section checkout-part">
+   <div class="container">
+      <div class="row my-5">
+         {% if messages %}
+               {% for message in messages %}
+                  {% if message.tags == 'error' %} 
+                     <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+                  {% else %}
+                  <div class="alert-info"><p>{{ message }}</p></div>
+                  {% endif %}
+               {% endfor %}
+         {% endif %}
+         <div class="col-12 col-sm-12 col-md-7 col-lg-8">
+            <div class="account-card" id="address">
+               <div class="account-title">
+                  <h4>عنوان الشحن</h4>
+                  <button data-bs-toggle="modal" data-bs-target="#contact-add">اضف عنوان جديد </button>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     {% if addresses %}
+                     {% for address in addresses %}
+                     <div class="col-md-12 col-lg-6 alert fade show">
+                        {% if address.active is True %}
+                        <div class="profile-card contact {{ address.id }} active">
+                        {% else %}
+                        <div class="profile-card {{ address.id }} contact">
+                        {% endif %}
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong>الاسم :</strong>{{ address.full_name }}
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              {% if address.number2 %}
+                              <div class="col-6">
+                                 <strong style="display: block;">رقم التليفون: </strong> {{ address.number1 }}
+                              </div>
+                              <div class="col-6">
+                                 <strong style="display: block;"> الرقم البديل: </strong> {{ address.number2 }}
+                              </div>
+                              {% else %}
+                              <div class="col-12">
+                                 <strong style="display: block;">رقم التليفون: </strong> {{ address.number1 }}
+                              </div>
+                              {% endif %}
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              <div class="col-6">
+                                 <strong style="display: block;">المحافظة : </strong>{{ address.governorate }}
+                              </div>
+                              <div class="col-6">
+                                 <strong style="display: block;">المنطقه : </strong>{{ address.region }}
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong style="display: block;">العنوان : </strong><p>{{ address.address }}</p>
+                              </div>
+                           </div>
+                           <div class="row my-1">
+                              <div class="col">
+                                 <strong>مصاريف الشحن لهذا العنوان : </strong>{{ address.shipping }} جنيه
+                              </div>
+                           </div>
+                           <div class="row mt-2">
+                              {% if address.active is True %}
+                              <div class="col">
+                                 <button class="btn btn-success w-100 p-2 " disabled>سيتم التوصيل على هذا العنوان</button>
+                              </div>
+                              {% else %}
+                              <div class="col">
+                                 <a href="../activate_address/{{ address.id }}/" class="btn btn-success w-100 p-2">اختار هذا العنوان</a>
+                              </div>
+                              {% endif %}
+                           </div>
+
+                           <ul>
+                              <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#{{address.title}}"></button></li>
+                              <li><button onclick="window.location.href='../delete_address/{{ address.id }}/'" class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
+                           </ul>
+                        </div>
+                     </div>
+
+                     {% endfor %}
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="alert-info">
+            <h3>ملخص الطلبية</h3>
+            <hr>
+            <ul class="list-group list-group-flush mt-3">
+                {% for item in items %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-3 d-flex align-items-center">
+                            <img src="{{ item.product.main_image.url }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="col-9 text-end">
+                            <p class="text-dark"  style="font-weight: 600;">{{ item.product.title }}</p>
+                            {% if item.quantity == 1 %}
+                            <small class="text-muted d-block">الكمية: <span class="text-dark"> قطعة واحدة</span></small>
+                            {% else %}
+                            <small class="text-muted d-block" >الكمية: <span class="text-dark">{{ item.quantity }} قطع</span></small>
+                            {% endif %}
+
+                            {% if item.product.sale_price > 0 %}
+                            <small class="text-muted d-block" >سعر القطعة: <span class="text-dark">{{ item.product.sale_price }} جنيه</span></small>
+                            {% else %}
+                            <small class="text-muted d-block" >سعر القطعة: <span class="text-dark">{{ item.product.price }} جنيه</span></small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <table class="table">
+               <tbody>
+                 <tr>
+                   <td>المجموع</td>
+                   <td>{{ total }} جنيه</td>
+                 </tr>
+
+                 {% if shipping %}
+                 <tr>
+                  <td>مصاريف الشحن</td>
+                  <td>{{ shipping }} جنيه</td>
+                 </tr>
+                {% endif %}
+
+                {% if coupon %}
+                    <tr class="text-white" style="background: var(--primary);">
+                    <td>كوبون الخصم <strong class="text-white">#{{coupon}}</strong></td>
+                    <td>خصم {{ discount }} جنيه</td>
+                    </tr> 
+                {% endif %}
+                 <tr>
+                  <td>المستحق للدفع</td>
+                  <td><strong>{{ payable }} جنيه</strong></td>
+                 </tr>
+               </tbody>
+            </table>
+             {% if coupon %}
+             {% else %}
+                <button class="coupon-btn">استخدم كوبون خصم?</button>
+                <form  class="coupon-form" method="post" action="/add_coupon/">
+                {% csrf_token %}
+                <input type="text" name="coupon" placeholder="ادخل كوبون خصم">
+                <button type="submit"><span>تفعيل</span></button>
+                </form>
+             {% endif %}
+            </div>
+
+
+         <div class="alert-info">
+            {% if addressActive %}
+            <form method="post" action="/add_order/" style=" display: inline; ">
+              {% csrf_token %}
+              <input type="hidden" name="user" value="{{user.id}}" />
+              <input type="hidden" name="full_name" value="{{ addressActive.full_name }}" />
+              <input type="hidden" name="number1" value="{{ addressActive.number1 }}" />
+              <input type="hidden" name="number2" value="{{ addressActive.number2 }}" />
+              <input type="hidden" name="governorate" value="{{ addressActive.governorate }}" />
+              <input type="hidden" name="region" value="{{ addressActive.region }}" />
+              <input type="hidden" name="address" value="{{ addressActive.address }}" />
+              <input type="hidden" name="coupon" value="{{ coupon }}" />
+              <input type="hidden" name="coupon_discount" value="{{ discount }}" />
+              <input type="hidden" name="payable" value="{{ payable }}" />
+              <input type="hidden" name="shipping" value="{{ shipping }}" />
+              <input type="hidden" name="total" value="{{ total }}" />
+              <input type="hidden" name="earn" value="{{ earn }}" />
+              <input type="hidden" name="affiliate_code" value="{{ affiliate_code }}" />
+              <label class="form-label text-dark my-2 font-18">ملاحظات <small class="text-primary font-14"> ( خاصة بشركة الشحن ) </small><small class="text-primary font-14"> ( اختيارى ) </small></label>
+              <textarea type="Textarea" name="notes" style=" min-height: 85px !important; " class="form-control" placeholder="مثال : انا غير متواجد يوم الجمعة بالعنوان المذكور بالأعلى ولاكنى متواجد طوال الأسبوع من السبت الى الخميس" rows="3"></textarea>
+              <input type="hidden" name="items" value="
+              {% for item in items %}
+
+              <tr>
+                  <td>
+                      <p class='d-inline-block align-middle mb-0 product-name'>{{ item.product.title}}</p> 
+                  </td>
+                  <td>
+                      {{ item.quantity }}
+                  </td>
+                  {% if item.product.sale_price %}
+                  <td>{{ item.product.sale_price|mul:item.quantity }} جنيه</td>                                                        
+                  {% else %}
+                  <td>{{ item.product.price|mul:item.quantity }} جنيه</td>                                                        
+                  {% endif %} 
+              </tr>
+
+              {% endfor %}" />
+              <button class="btn btn-success w-100 my-2">اتمام عمليه الشراء</button>
+            </form>
+            {% else %}
+           <h4 class="text-danger"> يجب ان تضف عنوانك اولا لاتمام عملبه الشراء </h4>
+           <button class="btn btn-success w-100 my-2" data-bs-toggle="modal" data-bs-target="#contact-add">اضف عنوان</button>
+            {% endif %}
+
+            <ul class="list-group mt-2">
+                <li class="list-group-item">
+                   <strong>
+                   <i class="icofont-check" style=" font-size: 23px; "></i>
+                   الدفع نقداً عند الاستلام
+                   </strong>
+                </li>
+
+                <li class="list-group-item text-end">
+                    <p>ستتلقى مكالمة خلال 24 ساعة من خدمة العملاء لتأكيد الطلب.</p>
+                    <p>مدة التوصيل من 3 الى 5 أيام عمل.</p>
+                    <p>الإسترجاع والإستبدال خلال 14 يوم (ضد عيوب الصناعة.</p>                    
+                 </li>
+             </ul>    
+                
+         </div>
+         
+         {% comment %} <div class="alert-info">
+            <h3 class="mb-3">طرق الدفع</h3>
+
+         </div> {% endcomment %}
+
+         </div>
+      </div>
+   </div>
+</section>
+<div class="modal fade" id="contact-add">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+         <form class="modal-form" method="post"  action="/add_address/">
+            <div class="form-title">
+               <h3>اضف عنوان جديد</h3>
+            </div>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">الإسم بالكامل<small class="text-danger font-14">*</small></label>
+                        <input type="text" name="full_name" class="form-control" placeholder="يفضل ان يكون الاسم ثلاثي" >
+                        <input type="hidden" name="user" value="{{ user.id }}">
+                        <input type="hidden" name="id" value="0">
+                    </div>
+                </div>                                               
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">رقم المحمول<small class="text-danger font-14">*</small><small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+                        <input type="text" name="number1" class="form-control" placeholder="مثال : 01234567890" >
+                    </div>
+                </div>                                              
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label text-dark font-18">الرقم البديل <small class="text-primary font-14"> (بالحروف الانجليزية) (اختياري) </small></label>
+                      <input type="text" name="number2" class="form-control" placeholder="مثال : 01234567890" >
+                  </div>
+              </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">المحافظه<small class="text-danger font-14">*</small></label>
+                        <select data-target="addsecondList" class="form-select addfirstList selectFilter" required="" name="governorate">                                                      
+                            <option value="">الرجاء الاختيار...</option>
+                            {% for governorate in governorates %}
+                            <option data-ref="{{ governorate }}" value="{{ governorate }}" >{{ governorate }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label id="c" class="form-label text-dark my-2 font-18">المنطقه - الحى<small class="text-danger font-14">*</small></label>
+                        <select class="form-select addsecondList selectFilter" data-target="thirdList" required="" id="c" name="region"> 
+                            <option value="">الرجاء الاختيار...</option>
+                            {{ regions|safe }}
+                        </select>
+                    </div>
+                </div>  
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-12">                            
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">العنوان بالتفصيل<small class="text-danger font-14">*</small><small class="text-primary font-14" style="display: block;">(المنطقة, اسم الشارع, رقم العقار , رقم الشقة)</small></label>
+                        <input type="text" name="address" class="form-control" placeholder="مثال : شارع كلية آداب - برج طيبة - عمارة 7 - الدور الخامس">
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row" bis_skin_checked="1">
+                <div class="col-md-12" bis_skin_checked="1">                            
+                    <div class="form-group" bis_skin_checked="1">
+                        <button type="submit" class="btn btn-block btn-primary m-2 font-18 w-100">اضافه العنوان</button>
+                    </div>
+                </div><!--end col-->
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+{% if addresses %}
+{% for address in addresses %}
+<div class="modal fade" id="{{ address.title }}">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+         <form class="modal-form" method="post"  action="/add_address/">
+            <div class="form-title">
+               <h3>تعديل العنوان</h3>
+            </div>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">الإسم بالكامل<small class="text-danger font-14">*</small></label>
+                        <input type="text" name="full_name" class="form-control" value="{{address.full_name }}" placeholder="يفضل ان يكون الاسم ثلاثي" >
+                        <input type="hidden" name="user" value="{{ user.id }}">
+                        <input type="hidden" name="title" value="{{ address.title }}">
+                        <input type="hidden" name="id" value="0">
+                    </div>
+                </div>                                               
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label text-dark font-18">رقم المحمول<small class="text-danger font-14">*</small><small class="text-primary font-14"> (بالحروف الانجليزية) </small></label>
+                        <input type="text" name="number1" class="form-control" value="{{address.number1 }}" placeholder="مثال : 01234567890" >
+                    </div>
+                </div>                                              
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label text-dark font-18">الرقم البديل <small class="text-primary font-14"> (بالحروف الانجليزية) (اختياري) </small></label>
+                      <input type="text" name="number2" class="form-control" value="{{address.number2 }}"  placeholder="مثال : 01234567890" >
+                  </div>
+              </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">المحافظه<small class="text-danger font-14">*</small></label>
+                        <select data-target="{{ address.title }}secondList" class="form-select {{ address.title }}firstList selectFilter" required="" name="governorate">                                                      
+                            <option value="">الرجاء الاختيار...</option>
+                            {% for governorate in governorates %}
+                            <option data-ref="{{ governorate }}" value="{{ governorate }}" >{{ governorate }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label id="c" class="form-label text-dark my-2 font-18">المنطقه - الحى<small class="text-danger font-14">*</small></label>
+                        <select class="form-select {{ address.title }}secondList selectFilter" data-target="thirdList" required="" id="c" name="region"> 
+                            <option value="">الرجاء الاختيار...</option>
+                            {{ regions|safe }}
+                        </select>
+                    </div>
+                </div>  
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-12">                            
+                    <div class="form-group">
+                        <label class="form-label text-dark my-2 font-18">العنوان بالتفصيل<small class="text-danger font-14">*</small><small class="text-primary font-14" style="display: block;">(المنطقة, اسم الشارع, رقم العقار , رقم الشقة)</small></label>
+                        <input type="text" name="address" class="form-control" value="{{address.address }}" placeholder="مثال : شارع كلية آداب - برج طيبة - عمارة 7 - الدور الخامس">
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row" bis_skin_checked="1">
+                <div class="col-md-12" bis_skin_checked="1">                            
+                    <div class="form-group" bis_skin_checked="1">
+                        <button type="submit" class="btn btn-block btn-primary m-2 font-18 w-100">اضافه العنوان</button>
+                    </div>
+                </div><!--end col-->
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+{% endfor %}
+{% endif %}
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+

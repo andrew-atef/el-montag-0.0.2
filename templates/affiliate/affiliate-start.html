@@ -1,0 +1,79 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="{% static 'js/selectFilter.min.js' %}"></script>
+{% endblock js %}
+
+{% block title %}
+المنتج للتسويق بالعمولة
+{% endblock title %}
+
+{% block content %}
+
+<section class="inner-section single-banner" style="background: url({% static 'images/single-banner.jpg' %}) no-repeat center;">
+    <div class="container">
+        <h2>مرحبا بك فى برنامج المنتج للتسويق بالعمولة</h2>
+        <p class="text-white mb-3">ارباح تصل الى 25% عمولة على كل منتج تسوقه</p>
+        {% if is_affiliate is True %}
+        <a href="{% url 'affiliate_dashboard' %}" class="btn btn-inline" tabindex="-1"><span>الدخول للوحه التحكم</span></a>
+        {% else %}
+        <a href="{% url 'affiliate-signup' %}" class="btn btn-inline" tabindex="-1"><span>إنضم إلينا</span></a>
+        <p class="text-white my-3"> هل لديك حساب مسوق بالفعل؟ <a class="text-white" href="{% url 'affiliate-login' %}"><strong>تسجيل الدخول</strong></a></p>
+
+        {% endif %}
+    </div>
+</section>
+
+
+
+
+<section class="section newitem-part  m-0">
+    <div class="container text-center" bis_skin_checked="1">
+       <h2 class="mb-4">كييف ابدا فى تحقيق الارباح</h2>
+       <div class="row" bis_skin_checked="1">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="alert-info" bis_skin_checked="1" style=" min-height: 155px; ">
+                    <h3>سجل</h3>
+                    <p>سجل مجانًا وابدأ في كسب العمولات</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="alert-info" bis_skin_checked="1" style=" min-height: 155px; ">
+                    <h3>أعلن</h3>
+                    <p>بعد التسجل هينزلك كوبونات خصم و اى عميل يستخدم الكوبون بتاعك هياخد خصم وانت هتاخد عموله </p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="alert-info" bis_skin_checked="1" style=" min-height: 155px; ">
+                    <h3>أربح</h3>
+                    <p>ارباح تصل الى 25% عمولة على كل منتج العميل هيشتريه بكوبون الخصم بتاعك او من الرابط بتاعك</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="alert-info" bis_skin_checked="1" style=" min-height: 155px; ">
+                    <h3>اسحب ارباحك</h3>
+                    <p>اسحب ارباحك بكل سهوله عن طريق فودافون كاش</p>
+                </div>
+            </div>
+        </div>
+    </div>
+ </section>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+

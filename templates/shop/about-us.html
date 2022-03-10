@@ -1,0 +1,52 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block title %}
+من نجن - المنتج
+{% endblock title %}
+
+{% block content %}
+<section class="inner-section checkout-part m-0">
+   <div class="container">
+      <div class="row mt-5">
+         {% if messages %}
+               {% for message in messages %}
+                  {% if message.tags == 'error' %} 
+                     <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+                  {% else %}
+                  <div class="alert-info"><p>{{ message }}</p></div>
+                  {% endif %}
+               {% endfor %}
+         {% endif %}
+         <div class="col-lg-12">
+            <div class="account-card" >
+               <div class="account-title">
+                  <h6>من نحن </h6>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     هذا المتجر بوابتك الجديدة للتسوق إلكترونيا بشكل سهل وبسيط. نوفر لك منتجات متععدة ذات جودة عالية لتختار منها الأفضل وبسعر تنافسي لن تجده في أي مكان أخر. التسوق معنا عملية ممتعة وأمنة. ونوفر لك كل ما تحتاجه من التسهيلات سواء في اختيار المنتج أو في عملية الدفع أو في عملية الشحن.
+
+
+
+                  </div>
+
+            </div>
+         </div>
+
+          
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+

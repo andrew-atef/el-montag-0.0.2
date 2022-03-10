@@ -1,0 +1,265 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/invoice.css' %}">
+
+<style>
+
+   .track {
+      position: relative;
+      background-color: #ddd;
+      height: 7px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      margin-bottom: 60px;
+      margin-top: 50px
+  }
+  
+  .track .step {
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      width: 25%;
+      margin-top: -18px;
+      text-align: center;
+      position: relative
+  }
+  
+  .track .step.active:before {
+      background: var(--primary)
+  }
+  
+  .track .step::before {
+      height: 7px;
+      position: absolute;
+      content: "";
+      width: 100%;
+      left: 0;
+      top: 18px
+  }
+  
+  .track .step.active .icon {
+      background: var(--primary);
+      color: #fff
+  }
+  
+  .track .icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      position: relative;
+      border-radius: 100%;
+      background: #ddd
+  }
+  
+  .track .step.active .text {
+      font-weight: 400;
+      color: #000
+  }
+  
+  .track .text {
+      display: block;
+      margin-top: 7px
+  }
+  
+
+</style>
+{% endblock css %}
+
+
+{% block title %}
+تفاصيل الطلب - المنتج
+{% endblock title %}
+
+{% block content %}
+<section class="inner-section invoice-part my-4">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            {% if messages %}
+                  {% for message in messages %}
+                     <div class="alert-info">
+                        <p>{{ message }}</p>
+                     </div>
+                  {% endfor %}
+            {% endif %}
+
+         </div>
+
+         <div class="col-lg-6">
+            <div class="account-card">
+               <div class="account-title">
+                  <h4>تفاصيل الطلب</h4>
+               </div>
+               <div class="account-content">
+                  <ul class="invoice-details">
+                     <li>
+                        <h6><strong>كود الطلب :</strong></h6>
+                        <p>{{ order.order_code }}#</p>
+                     </li>
+                     <li>
+                        <h6><strong>تاريخ الطلب</strong></h6>
+                        <p>{{ order.created|date:"Y-m-d" }}</p>
+                     </li>
+                     <hr>
+                     <h4 class="my-2">تفاصيل العنوان: </h4>
+                     <li>
+                        <h6><strong>الاسم :</strong></h6>
+                        <p>{{ order.full_name }}</p>
+                     </li>
+                     <li>
+                        <h6><strong>رقم التليفون :</strong></h6>
+                        <p>{{ order.number1 }}</p>
+                     </li>
+                     {% if address.number2 %} 
+                     <li>
+                        <h6><strong>الرقم البديل :</strong></h6>
+                        <p>{{ order.number2 }}</p>
+                     </li>
+                     {% endif %}
+
+                     <li>
+                        <h6><strong>المحافظة :</strong></h6>
+                        <p>{{ order.governorate }}</p>
+                     </li>
+                     <li>
+                        <h6><strong>المنطقه :</strong></h6>
+                        <p>{{ order.region }}</p>
+                     </li>
+                     <li>
+                        <h6><strong>العنوان :</strong></h6>
+                        <p>{{ order.address }}</p>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-6">
+            <div class="row">
+               <div class="col-12">
+                  <div class="account-card">
+                     <div class="account-title">
+                        <h4>ملخص الطلبيه</h4>
+                     </div>
+                     <div class="account-content">
+                        <table class="table">
+                           <tbody>
+                             <tr>
+                               <td>المجموع</td>
+                               <td>{{ order.total }} جنيه</td>
+                             </tr>
+                             {% if order.shipping %}
+                             <tr>
+                              <td>مصاريف الشحن</td>
+                              <td>{{ order.shipping }} جنيه</td>
+                             </tr>
+                             {% endif %}
+      
+      
+                           {% if order.coupon == 'False' or order.coupon == 'None'  %}
+                           {% else %}
+                             <tr class="text-white" style="background: var(--primary);">
+                              <td>كوبون الخصم <strong class="text-white">#{{order.coupon}}</strong></td>
+                              <td>خصم {{ order.coupon_discount }} جنيه</td>
+                             </tr> 
+                           {% endif %}
+                             <tr>
+                              <td>المستحق للدفع</td>
+                              <td><strong>{{ order.payable }} جنيه</strong></td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="account-card">
+                     <div class="account-title">
+                        <h4>حاله الطلب</h4>
+                     </div>
+                     <div class="account-content">
+                        <div class="track">
+                           {% if order.status == 'جاري تاكيد الطلب' %}
+                           <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">جاري تاكيد الطلب</span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> جاري تجهيز الطلب</span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> قيد التوصيل </span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم التوصيل</span> </div>
+                           {% elif order.status == 'جاري تجهيز الطلب' %}
+                           <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">جاري تاكيد الطلب</span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> جاري تجهيز الطلب</span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> قيد التوصيل </span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم التوصيل</span> </div>
+                           {% elif order.status == 'قيد التوصيل' %}
+                           <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">جاري تاكيد الطلب</span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> جاري تجهيز الطلب</span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> قيد التوصيل </span> </div>
+                           <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم التوصيل</span> </div>
+                           {% elif order.status == 'تم التوصيل' %}
+                           <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">جاري تاكيد الطلب</span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> جاري تجهيز الطلب</span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> قيد التوصيل </span> </div>
+                           <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم التوصيل</span> </div>
+                           {% endif %}
+                       </div>           
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <div class="col-lg-12">
+            <div class="table-scroll">
+               <table class="table-list">
+                  <thead>
+                     <tr>
+                        <th scope="col">اسم المنتج</th>
+                        <th scope="col">عدد القطع</th>
+                        <th scope="col">السعر فى عدد القطع</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% comment %} <tr>
+                        <td class="table-serial">
+                           <h6>01</h6>
+                        </td>
+                        <td class="table-image"><img src="images/product/01.jpg" alt="product"></td>
+                        <td class="table-name">
+                           <h6>product name</h6>
+                        </td>
+                        <td class="table-price">
+                           <h6>$19<small>/kilo</small></h6>
+                        </td>
+                        <td class="table-brand">
+                           <h6>Fresh Company</h6>
+                        </td>
+                        <td class="table-quantity">
+                           <h6>3</h6>
+                        </td>
+                     </tr> {% endcomment %}
+                     {{ order.items|safe }}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-12 text-center mt-5">
+            {% comment %} <button class="btn btn-inline"><i class="icofont-download"></i><span>تحميل الفاتوره</span></button> {% endcomment %}
+            <div class="back-home"><a href="{% url 'home' %}">الرجوع للصفحه الرئيسيه</a></div>
+         </div>
+      </div>
+   </div>
+</section>
+{% if img %}
+{{ img.url }}
+{% endif %}
+{% endblock content %}
+
+
+
+
+
+

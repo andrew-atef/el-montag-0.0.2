@@ -1,0 +1,249 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script>
+   function actionPlus(theId){
+      document.getElementById(theId).value++
+   }
+   function actionMinus(theId){
+      var e = document.getElementById(theId).value
+      if(e > 1){
+         document.getElementById(theId).value--
+      }
+   }
+   
+</script>
+{% endblock js %}
+
+
+{% block title %}
+عربة التسوق - المنتج
+{% endblock title %}
+
+{% block content %}
+<section class="inner-section checkout-part m-0">
+   <div class="container">
+      <div class="row mt-5">
+         {% if messages %}
+               {% for message in messages %}
+                  {% if message.tags == 'error' %} 
+                     <div class="alert-info" style="border-top: 3px solid #971111;"><p style="color: #971111;">{{ message }}</p></div>
+                  {% else %}
+                  <div class="alert-info"><p>{{ message }}</p></div>
+                  {% endif %}
+               {% endfor %}
+         {% endif %}
+         <div class="col-lg-12">
+            {% if items.count > 0 %}
+            <div class="account-card" >
+               <div class="account-title">
+                  <h4>عربة التسوق</h4>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                        <div class="table-scroll">
+
+
+                           {% for item in items %}
+                           <li class="cart-item">
+                              <div class="cart-media ms-2">
+                                 <a href="#">
+                                 <img src="{{ item.product.main_image.url }}" alt="product">
+                                 </a>
+                                 <form method="post" action="/delete_item/">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item" value="{{item.id}}" />
+                                    <button class="cart-delete">
+                                       <i class="far fa-trash-alt"></i>
+                                       </button>
+                                 </form>
+               
+                              </div>
+                              <div class="cart-info-group">
+                                 <div class="cart-info mb-1">
+                                    <h6>
+                                       <a href="{% url 'product-page' item.product.slug %}">{{ item.product.title }}</a>
+                                    </h6>
+                                    {% if item.product.sale_price > 0 %}
+                                    <p>
+                                       سعر القطعه - <strong>{{ item.product.sale_price }} جنيه</strong>
+                                    </p>
+                                    {% else %}
+                                    <p>
+                                       سعر القطعه - <strong>{{ item.product.price }} جنيه</strong>
+                                    </p>
+                                    {% endif %}
+                                    <small> عدد القطع: <strong>{{ item.quantity }}</strong></small>
+                                 </div>
+
+
+
+
+
+                                 
+
+
+                                 <div class="cart-action-group">
+                                    <div class="product-action p-1">
+                                       <button class="action-minus" onclick="actionMinus('{{ item.product.slug }}')"  title="Quantity Minus">
+                                          <i class="icofont-minus"></i>
+                                       </button>
+                                       <input class="action-input" title="Quantity Number" type="number" min="1" quantity="{{ item.quantity }}" name="quantity" value="{{ item.quantity }}">
+                                       <button class="action-plus" onclick="actionPlus('{{ item.product.slug }}')" title="Quantity Plus">
+                                          <i class="icofont-plus"></i>
+                                       </button>
+                                    </div>
+                                 </div>
+
+                                 <div class="row">
+                                    <div class="cart-action-group">
+                                       <div class="product-action p-1">
+                                       <form method="post" class="w-10" action="{% url 'add_to_cart' %}">
+                                          {% csrf_token %}
+                                          <input type="hidden" name="product" value="{{ item.product.id }}" />
+                                          <input type="hidden" id="{{ item.product.slug }}" name="quantity" value="{{ item.quantity }}" />
+                                          <input type="hidden" name="cart" value="{{user.id}}" />
+                                          <button class="btn btn-success" style="background: #11b76b;color: #fff;border: 0px;padding: 5px 43px !important;" title="Add to Cart">
+                                            <span>حفظ</span>
+                                          </button>
+                                      </form>
+                                    </div>
+
+  
+                                      <h6>
+                                         {% if item.product.sale_price > 0 %}
+                                         <div class="text-center">
+                                            <p>
+                                               السعر فى عدد القطع 
+                                            </p>
+                                            <p>
+                                               {{ item.product.sale_price|mul:item.quantity }} جنيه
+                                            </p>
+                                         </div>
+                                         {% else %}
+                                         <div class="text-center">
+                                            <p>
+                                               السعر فى عدد القطع 
+                                            </p>
+                                            <p>
+                                               {{ item.product.price|mul:item.quantity }} جنيه
+                                            </p>
+                                         </div>
+                                         {% endif %}
+                                         {% comment %} {% endif %} {% endcomment %}
+  
+                                      </h6>
+                                    </div>
+                                 </div>
+
+
+
+
+
+                              </div>
+                           </li>
+                           {% endfor %}
+                           <hr>   
+   
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+
+                        <div class="alert-info">
+                           <h3>ملخص الطلبية</h3>
+
+                           <table class="table">
+                              <tbody>
+                              <tr>
+                                 <td>المجموع</td>
+                                 <td>{{ total }} جنيه</td>
+                              </tr>
+                              {% if shipping %}
+                              <tr>
+                                 <td>مصاريف الشحن</td>
+                                 <td>{{ shipping }} جنيه</td>
+                              </tr>
+                              {% endif %}
+
+
+                              {% if coupon %}
+                              <tr class="text-white" style="background: var(--primary);">
+                                 <td>كوبون الخصم <strong class="text-white" >#{{coupon}}</strong></td>
+                                 <td>خصم {{ discount }} جنيه</td>
+                              </tr> 
+                              {% endif %}
+                              <tr>
+                                 <td>المستحق للدفع</td>
+                                 <td><strong>{{ payable }} جنيه</strong></td>
+                              </tr>
+                              </tbody>
+                           </table>
+
+
+                           {% if coupon %}
+                           {% else %}
+                           <button class="coupon-btn my-2">استخدم كوبون خصم?</button>
+                           <form  class="coupon-form" method="post" action="/add_coupon/">
+                              {% csrf_token %}
+                              <input type="text" name="coupon" placeholder="ادخل كوبون خصم">
+                              <button type="submit"><span>تفعيل</span></button>
+                           </form>
+                           {% endif %}
+                           <a href="{% url 'checkout' %}" class="btn btn-success w-100">استكمال الطلب</a>
+
+
+                           <ul class="list-group mt-2">
+                              <li class="list-group-item">
+                                 <strong>
+                                 <i class="icofont-check" style=" font-size: 23px; "></i>
+                                 الدفع نقداً عند الاستلام
+                                 </strong>
+                              </li>
+                           </ul>    
+
+                        </div>
+
+
+
+
+                     </div>
+                  </div>
+            </div>
+            {% else %}
+            <div class="account-card" >
+               <div class="account-title">
+                  <h4>عربة التسوق</h4>
+               </div>
+               <div class="account-content">
+                  <div class="row">
+                     <div class="col text-center my-5">
+                        العربه فارغه
+                     </div>
+                  </div>
+            </div>
+            {% endif %}
+            </div>
+         </div>
+
+          
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
